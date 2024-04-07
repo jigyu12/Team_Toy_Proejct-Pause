@@ -6,13 +6,11 @@ public class PlayerMove : MonoBehaviour
 {
     public float maxSpeed;
     public float jumpPower;
-    public int maxJumpCount; // 최대 점프 횟수를 정의합니다.
 
     Rigidbody2D rigid;
     SpriteRenderer spriteRenderer;
     Animator anim;
 
-    private int jumpCount; // 현재 점프 횟수를 추적합니다.
 
     void Awake()
     {
@@ -24,15 +22,12 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
         // Jump
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && !anim.GetBool("isJumping"))
         {
-            if (jumpCount < maxJumpCount) // 최대 점프 횟수 이내에서만 점프 가능
-            {
-                rigid.velocity = new Vector2(rigid.velocity.x, 0f); // 점프할 때 y 속도를 초기화합니다.
+            
                 rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-                jumpCount++;
                 anim.SetBool("isJumping", true);
-            }
+            
         }
 
         // Stop Speed
@@ -46,7 +41,7 @@ public class PlayerMove : MonoBehaviour
             spriteRenderer.flipX = Input.GetAxisRaw("Horizontal") == -1;
 
         // Animation
-        if (Mathf.Abs(rigid.velocity.x) < 0.5)
+        if (Mathf.Abs(rigid.velocity.x) < 0.3)
             anim.SetBool("isWalking", false);
         else
             anim.SetBool("isWalking", true);
@@ -72,11 +67,8 @@ public class PlayerMove : MonoBehaviour
             if (rayHit.collider != null)
             {
                 if (rayHit.distance < 1.5f)
-                {
-                    // 땅에 닿았을 때만 점프 횟수 초기화
-                    jumpCount = 0;
-                }
-                anim.SetBool("isJumping", false);
+                    anim.SetBool("isJumping", false);
+                
             }
         }
     }
