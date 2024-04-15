@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FallingPlatforms : MonoBehaviour
 {
-    [SerializeField] float fallSec = 0.5f, destroySec = 2f;
+    public float fallSec = 0.3f, destroySec = 2f;
     Rigidbody2D rb;
     void Start()
     {
@@ -12,9 +12,9 @@ public class FallingPlatforms : MonoBehaviour
     }
 
     // Update is called once per frame
-    void onCollisionEnter2D(Collision2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.name.Equals("player"))
+        if (collision.transform.CompareTag("Player"))
         {
             Invoke("FallPlatform", fallSec);
             Destroy(gameObject, destroySec);

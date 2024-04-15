@@ -71,5 +71,34 @@ public class PlayerMove : MonoBehaviour
                 
             }
         }
+
+
+        //사다리타기
+        if (isLadder)
+        {
+            float ver = Input.GetAxis("Vertical");
+            rigid.gravityScale = 0;
+            rigid.velocity = new Vector2(rigid.velocity.x, ver * 3);
+        }
+        else
+        {
+            rigid.gravityScale = 2;
+        }
+    }
+    public bool isLadder;
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("ladder"))
+        {
+            isLadder = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("ladder"))
+        {
+            isLadder = false;
+        }
     }
 }
