@@ -10,19 +10,25 @@ public class PlayerMove : MonoBehaviour
     Rigidbody2D rigid;
     SpriteRenderer spriteRenderer;
     Animator anim;
-
+    BoxCollider2D ladderCollider; // 사다리 콜라이더를 저장할 변수
 
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+
+        ladderCollider = GameObject.FindGameObjectWithTag("ladder").GetComponent<BoxCollider2D>();
+        if (ladderCollider == null)
+        {
+            Debug.LogError("사다리 콜라이더를 찾을 수 없습니다!");
+        }
     }
 
     private void Update()
     {
         // Jump
-        if (Input.GetButtonDown("Jump") && !anim.GetBool("isJumping"))
+        if (Input.GetButtonDown("Jump") && !anim.GetBool("isJumping") )
         {
             
                 rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
@@ -77,8 +83,15 @@ public class PlayerMove : MonoBehaviour
         if (isLadder)
         {
             float ver = Input.GetAxis("Vertical");
-            rigid.gravityScale = 0;
-            rigid.velocity = new Vector2(rigid.velocity.x, ver * 3);
+            anim.speed = ver != 0 ? Mathf.Abs(ver) : Mathf.Abs(h);
+            rigid.gravityScale = 0f;
+            rigid.velocity = new Vector2(rigid.velocity.x, ver * 2);
+
+
+
+
+            anim.SetBool("isJumping", false);
+
         }
         else
         {
@@ -91,6 +104,7 @@ public class PlayerMove : MonoBehaviour
         if (collision.CompareTag("ladder"))
         {
             isLadder = true;
+            anim.SetBool("isLaddering", true);
         }
     }
 
@@ -99,6 +113,7 @@ public class PlayerMove : MonoBehaviour
         if (collision.CompareTag("ladder"))
         {
             isLadder = false;
+            anim.SetBool("isLaddering", false);
         }
     }
 }
