@@ -6,7 +6,7 @@ public class PlayerInventory : MonoBehaviour
 {
     Rigidbody2D rigid;
     Collider2D col;
-
+    
     public GameObject[] weaponInventory;
     public int playerDamage;
 
