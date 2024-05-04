@@ -4,45 +4,29 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
+    GameObject[] weaponInventory;  // 값을 변경 후, 게임 매니져의 같은 값도 변경해야 함(함수 사용).
+    int playerDamage; // 값을 변경 후, 게임 매니져의 같은 값도 변경해야 함(함수 사용).
+
     Rigidbody2D rigid;
     Collider2D col;
     
-    public GameObject[] weaponInventory;
-    public int playerDamage;
-
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
     }
 
+    void Start()
+    {
+        weaponInventory = GameManager.Instance.GetWeaponInventory();
+        playerDamage = GameManager.Instance.GetPlayerDamage();
+    }
+
     void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("weapon") && Input.GetButtonDown("Interaction"))
         {
-            bool isfull = true;
-            int index = -1;
-            for (int i = 0; i < weaponInventory.Length; i++)
-            {
-                if (weaponInventory[i] == null)
-                {
-                    index = i;
-                    isfull = false;
-                    break;
-                }
-            }
-
-            if (isfull)
-            {
-                // 플레이어가 지정한 번호 무기 버리고 교체
-            }
-            else
-            {
-                weaponInventory[index] = collision.gameObject;
-                collision.gameObject.SetActive(false);
-                playerDamage = collision.gameObject.GetComponent<weapon>().weaponDamage;
-            }
-                
+            GameManager.Instance.SetWeaponInventory(collision);
         }
     }
 }

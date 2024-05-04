@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    public float maxSpeed;
-    public float jumpPower;
+    float maxSpeed; // 값을 변경 후, 게임 매니져의 같은 값도 변경해야 함(함수 사용).
+    float jumpPower; // 값을 변경 후, 게임 매니져의 같은 값도 변경해야 함(함수 사용).
 
     Rigidbody2D rigid;
     SpriteRenderer spriteRenderer;
@@ -18,11 +18,23 @@ public class PlayerMove : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
 
+        if(GameObject.FindGameObjectWithTag("ladder"))
+        {
+            ladderCollider = GameObject.FindGameObjectWithTag("ladder").GetComponent<BoxCollider2D>();
+        }
+        /*
         ladderCollider = GameObject.FindGameObjectWithTag("ladder").GetComponent<BoxCollider2D>();
         if (ladderCollider == null)
         {
             Debug.LogError("사다리 콜라이더를 찾을 수 없습니다!");
         }
+        */
+    }
+
+    void Start()
+    {
+        maxSpeed = GameManager.Instance.GetMaxSpeed();
+        jumpPower = GameManager.Instance.GetJumpPower();
     }
 
     private void Update()
