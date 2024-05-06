@@ -9,6 +9,8 @@ TagManager:
   - MonsterHitBox
   - ladder
   - weapon
+  - Projectile
+  - PlayerHitBox
   layers:
   - Default
   - TransparentFX
@@ -19,11 +21,11 @@ TagManager:
   - 
   - 
   - Platform
-  - 
+  - Player
   - Monster
   - MonsterHitBox
-  - 
-  - 
+  - Projectile
+  - PlayerHitBox
   - 
   - 
   - 

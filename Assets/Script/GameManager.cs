@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.EditorTools;
+using UnityEditor.Experimental.RestService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,6 +17,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float jumpPower;
     [SerializeField] private GameObject[] weaponInventory;
     [SerializeField] private int playerDamage;
+
+    public GameObject player;
 
     private static GameManager instance;
 
