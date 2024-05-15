@@ -83,6 +83,8 @@ public class AudioManager : MonoBehaviour
         get { return instance; }
     }
 
+    public bool IsBgmPlaying { get { return bgmPlayer.isPlaying; } }
+
     public void LoadStageBgmClip(int StageBgmIndex)
     {
         bgmPlayer.clip = Dt_StageBgms[StageBgmIndex];
@@ -97,6 +99,18 @@ public class AudioManager : MonoBehaviour
         else
         {
             bgmPlayer.Stop();
+        }
+    }
+
+    public void PauseBgm(bool isPause)
+    {
+        if (isPause)
+        {
+            bgmPlayer.Pause();
+        }
+        else
+        {
+            bgmPlayer.Play();
         }
     }
 
