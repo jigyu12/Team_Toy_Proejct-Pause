@@ -5,6 +5,7 @@ using UnityEditor.EditorTools;
 using UnityEditor.Experimental.RestService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,16 +20,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int playerDamage;
 
     public GameObject player;
+    public int sceneNumberTemp; // 임시 ////////////////////////////////////////////
+
+    private Button playButton;
+    private Button volumeButton;
+    private Button exitButton;
 
     private static GameManager instance;
 
     void Awake()
     {
         Application.targetFrameRate = 60;
-
-        isLive = true;
-        maxHealth = 100;
-        health = maxHealth;
 
         if (instance == null)
         {
@@ -40,6 +42,50 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        Init();
+    }
+
+    void Init()
+    {
+        isLive = false;
+        maxHealth = 100;
+        health = maxHealth;
+        maxSpeed = 5;
+        jumpPower = 13;
+        sceneNumberTemp = 1; // 임시 ////////////////////////////////////////////
+    }
+
+    // 씬이 로드 될때 마다 델리게이트 체인으로 걸어놓은 함수들이 실행된다.
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if(scene.name == "MainTitle")
+        {
+            Init();
+
+            playButton = GameObject.Find("Play").GetComponent<Button>();
+            playButton.onClick.AddListener(RestartGame);
+
+            volumeButton = GameObject.Find("Volume").GetComponent<Button>();
+            volumeButton.onClick.AddListener(() => SwitchBgmPause(AudioManager.Instance.IsBgmPlaying));
+
+            exitButton = GameObject.Find("Exit").GetComponent<Button>();
+            exitButton.onClick.AddListener(QuitGame);
+        }
+        else
+        {
+            player = GameObject.Find("player");
+        }
     }
 
     void Update()
@@ -50,9 +96,17 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetButtonDown("Fire2"))
         {
-            LoadScene(1);
+            LoadScene(0);
         }
-        
+
+        // left shift 키를 눌러 기능 검사 // 임시 ////////////////////////////////////////////
+
+        if (Input.GetButtonDown("Fire3"))
+        {
+            sceneNumberTemp++;
+            LoadScene(sceneNumberTemp);
+        }
+
     }
 
     public static GameManager Instance
@@ -72,18 +126,31 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        LoadScene(2); // 제일 첫 스테이지의 빌드 번호를 넣으면 된다.
+        LoadScene(1); // 제일 첫 스테이지의 빌드 번호를 넣으면 된다.
     }
 
     public void QuitGame()
     {
         Application.Quit();
+        Debug.Log("Quit");
     }
 
     public void LoadScene(int SceneBuildIndex)
     {
         SceneManager.LoadScene(SceneBuildIndex);
         AudioManager.Instance.LoadStageBgmClip(SceneBuildIndex);
+    }
+
+    public void SwitchBgmPause(bool bgmIsPlaying)
+    {
+        if(bgmIsPlaying)
+        {
+            AudioManager.Instance.PauseBgm(true);
+        }
+        else
+        {
+            AudioManager.Instance.PauseBgm(false);
+        }
     }
 
     public int GetPlayerDamage()

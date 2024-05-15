@@ -686,6 +686,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 8528871412494316244, guid: 2051b531773542a4db14361d24b5c894, type: 3}
+      propertyPath: orthographic size
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 9104592061756357778, guid: 2051b531773542a4db14361d24b5c894, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.11
@@ -734,28 +738,6 @@ PrefabInstance:
       addedObject: {fileID: 1605460904}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2051b531773542a4db14361d24b5c894, type: 3}
---- !u!114 &400258210 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8210042530262621623, guid: 2051b531773542a4db14361d24b5c894, type: 3}
-  m_PrefabInstance: {fileID: 400258209}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 400258212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d026e60196a9e9e43b9fdfca182b9936, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &400258211 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 182614913764245520, guid: 2051b531773542a4db14361d24b5c894, type: 3}
-  m_PrefabInstance: {fileID: 400258209}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 400258212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 038c37e834c810d4ba244a47ba46280e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &400258212 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7264503956677335651, guid: 2051b531773542a4db14361d24b5c894, type: 3}
@@ -1472,7 +1454,7 @@ MonoBehaviour:
   isHit: 0
   isGround: 1
   canAtk: 1
-  MonsterDirRight: 0
+  MonsterDirLeft: 0
   moveDir: 0
   hitBoxCollider: {fileID: 176604364}
   Anim: {fileID: 0}
@@ -11680,7 +11662,7 @@ MonoBehaviour:
   isHit: 0
   isGround: 1
   canAtk: 1
-  MonsterDirRight: 0
+  MonsterDirLeft: 0
   moveDir: 0
   hitBoxCollider: {fileID: 2013312278}
   Anim: {fileID: 0}
@@ -13332,9 +13314,12 @@ MonoBehaviour:
   isLive: 0
   health: 0
   maxHealth: 0
-  p_move: {fileID: 400258211}
-  p_inventory: {fileID: 400258210}
+  maxSpeed: 0
+  jumpPower: 0
+  weaponInventory: []
+  playerDamage: 0
   player: {fileID: 400258212}
+  sceneNumberTemp: 0
 --- !u!1 &1877611025
 GameObject:
   m_ObjectHideFlags: 0
