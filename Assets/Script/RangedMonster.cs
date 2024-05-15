@@ -1,13 +1,15 @@
 using System.Collections;
 using UnityEngine;
 
-public class Ghost : Monster
+public class RangedMonster : Monster
 {
     public enum State
     {
         Idle,
         Run,
         Attack,
+        Hit,
+        Death,
     };
 
     public State currentState = State.Idle;
@@ -44,6 +46,12 @@ public class Ghost : Monster
                     break;
                 case State.Attack:
                     yield return StartCoroutine(Attack());
+                    break;
+                case State.Hit:
+                    yield return StartCoroutine(Hit());
+                    break;
+                case State.Death:
+                    yield return StartCoroutine(Death());
                     break;
             }
         }
@@ -93,6 +101,28 @@ public class Ghost : Monster
         }
     }
 
+    IEnumerator Hit()
+    {
+        Debug.Log("Entering Hit state");
+
+        MyAnimSetTrigger("Hit");
+
+        yield return new WaitForSeconds(0.5f); // Hit 애니메이션 재생 시간
+
+        currentState = State.Idle;
+    }
+
+    IEnumerator Death()
+    {
+        Debug.Log("Entering Death state");
+
+        MyAnimSetTrigger("Death");
+
+        yield return new WaitForSeconds(2f);
+
+        Destroy(gameObject);
+    }
+
     IEnumerator Attack()
     {
         yield return null;
@@ -127,4 +157,18 @@ public class Ghost : Monster
         }
     }
 
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+
+        if (currentHp <= 0)
+        {
+            currentState = State.Death;
+        }
+
+        else
+        {
+            currentState = State.Hit;
+        }
+    }
 }

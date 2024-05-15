@@ -117,15 +117,33 @@ public class Monster : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int dam)
+    public virtual void TakeDamage(int dam)
     {
         currentHp -= dam;
         isHit = true;
-        // Knock Back or Dead
         hitBoxCollider.SetActive(false);
+        // Knock Back or Dead
+        if (currentHp <= 0)
+        {
+            Debug.Log("Monster Dead");
+        }
+
+        else
+        {
+            rb.velocity = Vector2.zero;
+            if (transform.position.x > GameManager.Instance.player.transform.position.x)
+            {
+                rb.velocity = new Vector2(3f, 0);
+            }
+            
+            else
+            {
+                rb.velocity = new Vector2(-3f, 0);
+            }
+        }
     }
 
-    protected void OnTriggerEnter2D(Collider2D collision)
+    protected void OnTriggerEnter2D(Collider2D collision) // 플레이어 투사체에 피격
     {
         //if ( collision.transform.CompareTag ( ?? ) )
         //{
