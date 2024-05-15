@@ -156,10 +156,10 @@ public class Monster : MonoBehaviour
         RaycastHit2D front = Physics2D.Raycast(frontVec, MonsterDirLeft ? Vector3.right : Vector3.left, 1, LayerMask.GetMask("Platform"));
         RaycastHit2D top = Physics2D.Raycast(topVec, MonsterDirLeft ? Vector3.right : Vector3.left, 1, LayerMask.GetMask("Platform"));
 
-        if (front.collider != null) // 점프
+        if (front.collider != null && top.collider == null) // 점프
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
 
-        if (top.collider != null) // 벽 방향전환
+        if (top.collider != null && top.collider != null) // 벽 방향전환
             MonsterFlip();
 
 

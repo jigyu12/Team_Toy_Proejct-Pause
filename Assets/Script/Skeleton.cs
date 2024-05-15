@@ -29,7 +29,9 @@ public class Skeleton : Monster
         base.OnTriggerEnter2D(collision);
         if (collision.transform.CompareTag("PlayerHitBox"))
         {
+            Debug.Log("PlayerHitBox hit, flipping monster");
             MonsterFlip();
+            Debug.Log("Monster flipped");
         }
     }
 
