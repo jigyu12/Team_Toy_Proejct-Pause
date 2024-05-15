@@ -347,9 +347,9 @@ GameObject:
   m_Component:
   - component: {fileID: 176604365}
   - component: {fileID: 176604366}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MonsterHitBox
-  m_TagString: Untagged
+  m_TagString: MonsterHitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -398,7 +398,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.009882957, y: -0.076639175}
@@ -674,6 +674,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5234868807585826084, guid: 2051b531773542a4db14361d24b5c894, type: 3}
+      propertyPath: m_Size.x
+      value: 0.14811453
+      objectReference: {fileID: 0}
+    - target: {fileID: 5234868807585826084, guid: 2051b531773542a4db14361d24b5c894, type: 3}
+      propertyPath: m_Size.y
+      value: 0.30203184
+      objectReference: {fileID: 0}
+    - target: {fileID: 5234868807585826084, guid: 2051b531773542a4db14361d24b5c894, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.008900136
+      objectReference: {fileID: 0}
+    - target: {fileID: 5234868807585826084, guid: 2051b531773542a4db14361d24b5c894, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.043689787
+      objectReference: {fileID: 0}
+    - target: {fileID: 5418554984606810014, guid: 2051b531773542a4db14361d24b5c894, type: 3}
+      propertyPath: m_Mass
+      value: 1.1924833
+      objectReference: {fileID: 0}
     - target: {fileID: 5418554984606810014, guid: 2051b531773542a4db14361d24b5c894, type: 3}
       propertyPath: m_Constraints
       value: 4
@@ -688,11 +708,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9104592061756357778, guid: 2051b531773542a4db14361d24b5c894, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -17.11
+      value: -14.66
       objectReference: {fileID: 0}
     - target: {fileID: 9104592061756357778, guid: 2051b531773542a4db14361d24b5c894, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.04
+      value: 2.27
       objectReference: {fileID: 0}
     - target: {fileID: 9104592061756357778, guid: 2051b531773542a4db14361d24b5c894, type: 3}
       propertyPath: m_LocalPosition.z
@@ -734,28 +754,6 @@ PrefabInstance:
       addedObject: {fileID: 1605460904}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2051b531773542a4db14361d24b5c894, type: 3}
---- !u!114 &400258210 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8210042530262621623, guid: 2051b531773542a4db14361d24b5c894, type: 3}
-  m_PrefabInstance: {fileID: 400258209}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 400258212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d026e60196a9e9e43b9fdfca182b9936, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &400258211 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 182614913764245520, guid: 2051b531773542a4db14361d24b5c894, type: 3}
-  m_PrefabInstance: {fileID: 400258209}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 400258212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 038c37e834c810d4ba244a47ba46280e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &400258212 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7264503956677335651, guid: 2051b531773542a4db14361d24b5c894, type: 3}
@@ -1284,9 +1282,9 @@ GameObject:
   - component: {fileID: 699987500}
   - component: {fileID: 699987504}
   - component: {fileID: 699987505}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Skeleton
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1472,7 +1470,7 @@ MonoBehaviour:
   isHit: 0
   isGround: 1
   canAtk: 1
-  MonsterDirRight: 0
+  MonsterDirLeft: 0
   moveDir: 0
   hitBoxCollider: {fileID: 176604364}
   Anim: {fileID: 0}
@@ -11680,7 +11678,7 @@ MonoBehaviour:
   isHit: 0
   isGround: 1
   canAtk: 1
-  MonsterDirRight: 0
+  MonsterDirLeft: 0
   moveDir: 0
   hitBoxCollider: {fileID: 2013312278}
   Anim: {fileID: 0}
@@ -12530,7 +12528,7 @@ Transform:
   m_GameObject: {fileID: 1383375559}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.4, y: -0.15, z: 0}
+  m_LocalPosition: {x: 0.43, y: -0.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13101,7 +13099,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.009221815, y: -0.039257616}
@@ -13332,8 +13330,10 @@ MonoBehaviour:
   isLive: 0
   health: 0
   maxHealth: 0
-  p_move: {fileID: 400258211}
-  p_inventory: {fileID: 400258210}
+  maxSpeed: 5
+  jumpPower: 5
+  weaponInventory: []
+  playerDamage: 0
   player: {fileID: 400258212}
 --- !u!1 &1877611025
 GameObject:
