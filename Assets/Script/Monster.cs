@@ -18,6 +18,7 @@ public class Monster : MonoBehaviour
 
     protected Rigidbody2D rb;
     protected BoxCollider2D boxCollider;
+    protected BoxCollider2D childCollider;
     public GameObject hitBoxCollider;
     public Animator Anim;
     public LayerMask layerMask;
@@ -27,6 +28,7 @@ public class Monster : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
+        childCollider = transform.Find("MonsterHitBox").GetComponent<BoxCollider2D>(); 
         Anim = GetComponent<Animator>();
 
         StartCoroutine(CalcCoolTime());
@@ -143,13 +145,13 @@ public class Monster : MonoBehaviour
         }
     }
 
-    protected void OnTriggerEnter2D(Collider2D collision) // 플레이어 투사체에 피격
-    {
-        //if ( collision.transform.CompareTag ( ?? ) )
-        //{
-        //TakeDamage ( 0 );
-        //}
-    }
+    //protected void OnTriggerEnter2D(Collider2D collision) // 플레이어 투사체에 피격
+    //{
+    //    //if ( collision.transform.CompareTag ( ?? ) )
+    //    //{
+    //    //TakeDamage ( 0 );
+    //    //}
+    //}
 
     public void Move()
     {

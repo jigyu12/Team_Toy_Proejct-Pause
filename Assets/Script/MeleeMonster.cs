@@ -18,8 +18,9 @@ public class MeleeMonster : Monster
     private void Awake()
     {
         base.Awake();
-        moveSpeed = 2f;
-        jumpPower = 5f;
+
+        atkCoolTime = 3f;
+        atkCoolTimeCalc = atkCoolTime;
 
         StartCoroutine(FSM());
     }
@@ -29,7 +30,6 @@ public class MeleeMonster : Monster
     {
         while (true)
         {
-            Debug.Log("Current State: " + currentState);
             switch (currentState)
             {
                 case State.Run:
@@ -56,8 +56,6 @@ public class MeleeMonster : Monster
 
     IEnumerator Hit()
     {
-        Debug.Log("Entering Hit state");
-
         MyAnimSetTrigger("Hit");
 
         yield return new WaitForSeconds(0.5f); // Hit 애니메이션 재생 시간
@@ -67,7 +65,6 @@ public class MeleeMonster : Monster
 
     IEnumerator Death()
     {
-        Debug.Log("Entering Death state");
         MyAnimSetTrigger("Death");
 
         // Death 애니메이션 재생 시간만큼 대기
@@ -76,18 +73,6 @@ public class MeleeMonster : Monster
         // 죽음 처리 로직 (예: 오브젝트 삭제)
         Destroy(gameObject);
     }
-
-    //void FixedUpdate()
-    //{
-
-    //    if (!isHit)
-    //    {
-    //        Move();
-    //    }
-
-    //    if (currentHp <= 0)
-    //        MyAnimSetTrigger("Death");
-    //}
 
     public override void TakeDamage(int damage)
     {
@@ -103,10 +88,8 @@ public class MeleeMonster : Monster
         }
     }
 
-
     protected void OnTriggerEnter2D(Collider2D collision) // 플레이어와 부딪히면 방향 전환
     {
-        base.OnTriggerEnter2D(collision);
         if (collision.transform.CompareTag("PlayerHitBox"))
         {
             Debug.Log("PlayerHitBox hit, flipping monster");
@@ -114,6 +97,5 @@ public class MeleeMonster : Monster
             Debug.Log("Monster flipped");
         }
     }
-
 
 }

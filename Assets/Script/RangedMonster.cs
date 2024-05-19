@@ -22,9 +22,7 @@ public class RangedMonster : Monster
     void Awake()
     {
         base.Awake();
-        moveSpeed = 1f;
-        jumpPower = 0.3f;
-        currentHp = 4;
+
         atkCoolTime = 3f;
         atkCoolTimeCalc = atkCoolTime;
 
@@ -35,7 +33,6 @@ public class RangedMonster : Monster
     {
         while (true)
         {
-            Debug.Log("Current State: " + currentState);
             switch (currentState)
             {
                 case State.Idle:
@@ -59,7 +56,6 @@ public class RangedMonster : Monster
 
     IEnumerator Idle()
     {
-        Debug.Log("Entering Idle state");
         MyAnimSetTrigger("Idle");
 
         if (Random.value > 0.5f)
@@ -72,7 +68,6 @@ public class RangedMonster : Monster
 
     IEnumerator Run()
     {
-        Debug.Log("Entering Run state");
         float runTime = Random.Range(2f, 4f);
         while (runTime >= 0f)
         {
@@ -103,8 +98,6 @@ public class RangedMonster : Monster
 
     IEnumerator Hit()
     {
-        Debug.Log("Entering Hit state");
-
         MyAnimSetTrigger("Hit");
 
         yield return new WaitForSeconds(0.5f); // Hit 애니메이션 재생 시간
@@ -114,8 +107,6 @@ public class RangedMonster : Monster
 
     IEnumerator Death()
     {
-        Debug.Log("Entering Death state");
-
         MyAnimSetTrigger("Death");
 
         yield return new WaitForSeconds(2f);
@@ -137,23 +128,11 @@ public class RangedMonster : Monster
 
     void Fire()
     {
-        Debug.Log("Fire function called");
-        if (Bullet == null || genPoint == null)
-        {
-            Debug.LogError("Bullet prefab or genPoint is not set.");
-            return;
-        }
-
         GameObject bulletClone = Instantiate(Bullet, genPoint.position, genPoint.rotation);
         if (bulletClone != null)
         {
             bulletClone.GetComponent<Rigidbody2D>().velocity = transform.right * transform.localScale.x * 5f;
             Physics2D.IgnoreCollision(bulletClone.GetComponent<Collider2D>(), GetComponent<Collider2D>());
-            Debug.Log("Bullet instantiated and fired");
-        }
-        else
-        {
-            Debug.LogError("Bullet instantiation failed");
         }
     }
 

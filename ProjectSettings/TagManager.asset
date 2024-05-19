@@ -11,6 +11,8 @@ TagManager:
   - weapon
   - Projectile
   - PlayerHitBox
+  - MonsterAttack
+  - MonsterSkill
   layers:
   - Default
   - TransparentFX
@@ -26,8 +28,8 @@ TagManager:
   - MonsterHitBox
   - Projectile
   - PlayerHitBox
-  - 
-  - 
+  - MonsterAttack
+  - MonsterSkill
   - 
   - 
   - 
