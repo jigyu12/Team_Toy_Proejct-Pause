@@ -1,24 +1,20 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class RangedMonster : Monster
+public class SlimerMonster : Monster
 {
     public enum State
     {
         Idle,
         Run,
-        Attack,
         Hit,
         Death,
     };
 
     public State currentState = State.Idle;
 
-    public Transform genPoint;
-    public GameObject Bullet;
-
-
-    void Awake()
+    private void Awake()
     {
         base.Awake();
 
@@ -40,9 +36,6 @@ public class RangedMonster : Monster
                 case State.Run:
                     yield return StartCoroutine(Run());
                     break;
-                case State.Attack:
-                    yield return StartCoroutine(Attack());
-                    break;
                 case State.Hit:
                     yield return StartCoroutine(Hit());
                     break;
@@ -62,11 +55,18 @@ public class RangedMonster : Monster
             MonsterFlip();
         }
         yield return new WaitForSeconds(1f);
+
         currentState = State.Run;
     }
 
     IEnumerator Run()
     {
+        //if (!isHit)
+        //{
+        //    MyAnimSetTrigger("Run");
+        //    walk();
+        //}
+
         float runTime = Random.Range(2f, 4f);
         while (runTime >= 0f)
         {
@@ -74,25 +74,12 @@ public class RangedMonster : Monster
             MyAnimSetTrigger("Run");
             if (!isHit)
             {
-                Move();
-
-                if (canAtk && IsPlayerDir())
-                {
-                    if (Vector2.Distance(transform.position, GameManager.Instance.player.transform.position) < 15f)
-                    {
-                        currentState = State.Attack;
-                        yield break;
-                    }
-                }
+                walk();
             }
             yield return null;
         }
 
-        if (currentState != State.Attack)
-        {
-            currentState = Random.value >= 0.5f ? State.Idle : State.Run;
-            MonsterFlip();
-        }
+        currentState = State.Idle;
     }
 
     IEnumerator Hit()
@@ -100,42 +87,55 @@ public class RangedMonster : Monster
         MyAnimSetTrigger("Hit");
 
         yield return new WaitForSeconds(0.5f); // Hit 애니메이션 재생 시간
+        if (Random.value > 0.5f)
+        {
+            currentState = State.Idle;
+        }
 
-        currentState = State.Idle;
+        else
+        {
+            currentState = State.Run;
+        }
     }
 
     IEnumerator Death()
     {
         MyAnimSetTrigger("Death");
 
+        // Death 애니메이션 재생 시간만큼 대기
         yield return new WaitForSeconds(2f);
 
+        // 죽음 처리 로직 (예: 오브젝트 삭제)
         Destroy(gameObject);
     }
 
-    IEnumerator Attack()
+    public void walk()
     {
-        yield return null;
+        rb.velocity = new Vector2(transform.localScale.x * moveSpeed, rb.velocity.y);
 
-        canAtk = false;
+        if (MonsterDirLeft == true)
+            moveDir = -0.5f;
+        else
+            moveDir = 0.5f;
 
-        MyAnimSetTrigger("Attack");
+        Vector2 currentPos = transform.position; // 현재 위치 기준
+        Vector2 frontVec = new Vector2(currentPos.x + transform.localScale.x, currentPos.y); // 앞 방향
+        Vector2 downVec = new Vector2(transform.position.x + moveDir, transform.position.y);
 
-        yield return new WaitForSeconds(Random.Range(0.5f, 1f)); // 총알 발사 간격
-        currentState = State.Idle;
+        Debug.DrawRay(frontVec, MonsterDirLeft ? Vector3.right : Vector3.left, new Color(0, 1, 0));
+        Debug.DrawRay(downVec, Vector3.down, new Color(0, 1, 0));
+
+        RaycastHit2D front = Physics2D.Raycast(frontVec, MonsterDirLeft ? Vector3.right : Vector3.left, 1, LayerMask.GetMask("Platform"));
+
+        if (front.collider != null) // 벽 방향전환
+            MonsterFlip();
+
+
+        RaycastHit2D down = Physics2D.Raycast(downVec, Vector3.down, 1, LayerMask.GetMask("Platform"));
+
+        if (down.collider == null)
+            MonsterFlip();
     }
-
-    void Fire()
-    {
-        GameObject bulletClone = Instantiate(Bullet, genPoint.position, genPoint.rotation);
-        if (bulletClone != null)
-        {
-            bulletClone.GetComponent<Rigidbody2D>().velocity = transform.right * transform.localScale.x * 5f;
-            Physics2D.IgnoreCollision(bulletClone.GetComponent<Collider2D>(), GetComponent<Collider2D>());
-        }
-    }
-
-
 
     public override void TakeDamage(int damage)
     {
@@ -145,10 +145,18 @@ public class RangedMonster : Monster
         {
             currentState = State.Death;
         }
-
         else
         {
             currentState = State.Hit;
         }
     }
+
+    protected void OnTriggerEnter2D(Collider2D collision) // 플레이어와 부딪히면 방향 전환
+    {
+        if (collision.transform.CompareTag("PlayerHitBox"))
+        {
+            MonsterFlip();
+        }
+    }
+
 }

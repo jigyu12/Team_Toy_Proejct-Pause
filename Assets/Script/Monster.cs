@@ -179,7 +179,7 @@ public class Monster : MonoBehaviour
         if (front.collider != null && top.collider == null) // 점프
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
 
-        if (top.collider != null && top.collider != null) // 벽 방향전환
+        if (front.collider != null && top.collider != null) // 벽 방향전환
             MonsterFlip();
 
 
