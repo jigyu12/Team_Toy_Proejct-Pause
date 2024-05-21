@@ -49,6 +49,7 @@ public class MeleeMonster : Monster
     {
         if (!isHit)
         {
+            MyAnimSetTrigger("Run");
             Move();
         }
         yield return null;
@@ -94,9 +95,7 @@ public class MeleeMonster : Monster
     {
         if (collision.transform.CompareTag("PlayerHitBox"))
         {
-            Debug.Log("PlayerHitBox hit, flipping monster");
             MonsterFlip();
-            Debug.Log("Monster flipped");
         }
     }
 
