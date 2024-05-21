@@ -61,12 +61,6 @@ public class SlimerMonster : Monster
 
     IEnumerator Run()
     {
-        //if (!isHit)
-        //{
-        //    MyAnimSetTrigger("Run");
-        //    walk();
-        //}
-
         float runTime = Random.Range(2f, 4f);
         while (runTime >= 0f)
         {
@@ -74,7 +68,7 @@ public class SlimerMonster : Monster
             MyAnimSetTrigger("Run");
             if (!isHit)
             {
-                walk();
+                Move();
             }
             yield return null;
         }
@@ -109,7 +103,7 @@ public class SlimerMonster : Monster
         Destroy(gameObject);
     }
 
-    public void walk()
+    public override void Move()
     {
         rb.velocity = new Vector2(transform.localScale.x * moveSpeed, rb.velocity.y);
 

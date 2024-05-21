@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7604431464794828229}
-  - component: {fileID: 8398594639861922857}
+  - component: {fileID: 1841459662668152023}
   m_Layer: 11
   m_Name: MonsterHitBox
   m_TagString: MonsterHitBox
@@ -32,8 +32,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5638480470007928804}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &8398594639861922857
-BoxCollider2D:
+--- !u!68 &1841459662668152023
+EdgeCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -64,19 +64,64 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.030473948, y: -0.034119666}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.6609478, y: 0.7912034}
+  m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.2496891, y: 0.09401691}
+  - {x: -0.24944878, y: 0.12554967}
+  - {x: -0.28051186, y: 0.12565124}
+  - {x: -0.28042603, y: 0.2178818}
+  - {x: -0.25048828, y: 0.21789885}
+  - {x: -0.25086594, y: 0.1870743}
+  - {x: -0.21809196, y: 0.18620312}
+  - {x: -0.21793747, y: 0.28023148}
+  - {x: -0.18658638, y: 0.280182}
+  - {x: -0.18623734, y: 0.3116821}
+  - {x: -0.15559578, y: 0.3120669}
+  - {x: -0.1553688, y: 0.34301174}
+  - {x: 0.061487198, y: 0.34272158}
+  - {x: 0.061193466, y: 0.3118496}
+  - {x: 0.15526772, y: 0.31124353}
+  - {x: 0.15563393, y: 0.28007054}
+  - {x: 0.21811104, y: 0.2806492}
+  - {x: 0.2183361, y: 0.24959612}
+  - {x: 0.24934196, y: 0.24956357}
+  - {x: 0.24934196, y: 0.21829283}
+  - {x: 0.28111267, y: 0.21831691}
+  - {x: 0.28085136, y: -0.09284091}
+  - {x: 0.24949837, y: -0.09310579}
+  - {x: 0.24938774, y: -0.12419689}
+  - {x: 0.21823692, y: -0.124278665}
+  - {x: 0.21816444, y: -0.15610969}
+  - {x: 0.18693161, y: -0.15598428}
+  - {x: 0.18707466, y: -0.2181189}
+  - {x: 0.15599823, y: -0.21811032}
+  - {x: 0.15579414, y: -0.24949956}
+  - {x: 0.1247139, y: -0.2495507}
+  - {x: 0.12468529, y: -0.28105474}
+  - {x: 0.09338951, y: -0.28084338}
+  - {x: 0.0935688, y: -0.31220448}
+  - {x: -0.15552902, y: -0.3119254}
+  - {x: -0.1554718, y: -0.2809373}
+  - {x: -0.18657303, y: -0.28087258}
+  - {x: -0.18663216, y: -0.2178837}
+  - {x: -0.21818924, y: -0.21819055}
+  - {x: -0.2177372, y: -0.18706298}
+  - {x: -0.25055885, y: -0.18641949}
+  - {x: -0.25071716, y: -0.21808636}
+  - {x: -0.34345055, y: -0.21844435}
+  - {x: -0.34251785, y: -0.1262877}
+  - {x: -0.3112278, y: -0.12590885}
+  - {x: -0.31172752, y: -0.0949136}
+  - {x: -0.2801094, y: -0.094409704}
+  - {x: -0.2804222, y: -0.06357396}
+  - {x: -0.18696594, y: -0.06401086}
+  - {x: -0.18677521, y: 0.09469688}
+  - {x: -0.24960136, y: 0.09403783}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1 &7073468880265581565
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,7 +164,7 @@ GameObject:
   - component: {fileID: 5638480470007928804}
   - component: {fileID: 6526371909493147090}
   - component: {fileID: 6387010143325366501}
-  - component: {fileID: 8774909053706318965}
+  - component: {fileID: -8089708404412322690}
   - component: {fileID: 4277030826582567406}
   - component: {fileID: 808854295542171708}
   m_Layer: 10
@@ -225,8 +270,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &8774909053706318965
-BoxCollider2D:
+--- !u!70 &-8089708404412322690
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -257,19 +302,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.030473948, y: 0.019174576}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.6609478, y: 0.6846149}
-  m_EdgeRadius: 0
+  m_Offset: {x: -0.028632164, y: -0.09530622}
+  m_Size: {x: 0.1599369, y: 0.66819584}
+  m_Direction: 0
 --- !u!95 &4277030826582567406
 Animator:
   serializedVersion: 5

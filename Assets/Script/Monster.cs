@@ -17,18 +17,18 @@ public class Monster : MonoBehaviour
     public float moveDir;
 
     protected Rigidbody2D rb;
-    protected BoxCollider2D boxCollider;
+    protected CapsuleCollider2D capsuleCollider;
     protected BoxCollider2D childCollider;
     public GameObject hitBoxCollider;
     public Animator Anim;
     public LayerMask layerMask;
-    
+
 
     protected void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        boxCollider = GetComponent<BoxCollider2D>();
-        childCollider = transform.Find("MonsterHitBox").GetComponent<BoxCollider2D>(); 
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
+        childCollider = transform.Find("MonsterHitBox").GetComponent<BoxCollider2D>();
         Anim = GetComponent<Animator>();
 
         StartCoroutine(CalcCoolTime());
@@ -109,7 +109,7 @@ public class Monster : MonoBehaviour
 
     protected void GroundCheck()
     {
-        if (Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.size, 0, Vector2.down, 0.05f, layerMask))
+        if (Physics2D.BoxCast(capsuleCollider.bounds.center, capsuleCollider.size, 0, Vector2.down, 0.05f, layerMask))
         {
             isGround = true;
         }
@@ -137,7 +137,7 @@ public class Monster : MonoBehaviour
             {
                 rb.velocity = new Vector2(3f, 0);
             }
-            
+
             else
             {
                 rb.velocity = new Vector2(-3f, 0);
@@ -153,7 +153,7 @@ public class Monster : MonoBehaviour
     //    //}
     //}
 
-    public void Move()
+    public virtual void Move()
     {
         rb.velocity = new Vector2(transform.localScale.x * moveSpeed, rb.velocity.y);
 
@@ -195,3 +195,4 @@ public class Monster : MonoBehaviour
         }
     }
 }
+

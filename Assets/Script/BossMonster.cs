@@ -90,7 +90,7 @@ public class BossMonster : Monster
             {
                 MyAnimSetTrigger("Walk");
 
-                walk();
+                Move();
 
                 if (canAtk && IsPlayerDir()) // Attack, Skill
                 {
@@ -193,7 +193,7 @@ public class BossMonster : Monster
         }
     }
 
-    public void walk()
+    public override void Move()
     {
         rb.velocity = new Vector2(transform.localScale.x * moveSpeed, rb.velocity.y);
 
