@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -27,6 +28,17 @@ public class PlayerInventory : MonoBehaviour
         if (collision.CompareTag("weapon") && Input.GetButtonDown("Interaction"))
         {
             GameManager.Instance.SetWeaponInventory(collision);
+
+            GameObject inventoryImage = GameObject.Find("ui").transform.Find("inventory").Find("WeaponImage").gameObject;
+            if(!inventoryImage.activeSelf)
+            {
+                inventoryImage.GetComponent<Image>().sprite = collision.transform.GetComponent<SpriteRenderer>().sprite;
+                inventoryImage.SetActive(true);
+            }
+            else
+            {
+                inventoryImage.GetComponent<Image>().sprite = collision.transform.GetComponent<SpriteRenderer>().sprite;
+            }
         }
     }
 }

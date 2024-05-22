@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerMove : MonoBehaviour
 {
     float maxSpeed; // 값을 변경 후, 게임 매니져의 같은 값도 변경해야 함(함수 사용).
     float jumpPower; // 값을 변경 후, 게임 매니져의 같은 값도 변경해야 함(함수 사용).
+
+    bool isLeftMoveClick;
+    bool isRightMoveClick;
 
     Rigidbody2D rigid;
     SpriteRenderer spriteRenderer;
@@ -18,7 +22,10 @@ public class PlayerMove : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
 
-        if(GameObject.FindGameObjectWithTag("ladder"))
+        isLeftMoveClick = false;
+        isRightMoveClick = false;
+
+        if (GameObject.FindGameObjectWithTag("ladder"))
         {
             ladderCollider = GameObject.FindGameObjectWithTag("ladder").GetComponent<BoxCollider2D>();
         }
@@ -58,6 +65,15 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetButton("Horizontal"))
             spriteRenderer.flipX = Input.GetAxisRaw("Horizontal") == -1;
 
+        if (isLeftMoveClick && !isRightMoveClick)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else if (!isLeftMoveClick && isRightMoveClick)
+        {
+            spriteRenderer.flipX = false;
+        }
+
         // Animation
         if (Mathf.Abs(rigid.velocity.x) < 0.3)
             anim.SetBool("isWalking", false);
@@ -71,6 +87,21 @@ public class PlayerMove : MonoBehaviour
         float h = Input.GetAxisRaw("Horizontal");
 
         rigid.AddForce(Vector2.right * h, ForceMode2D.Impulse);
+
+        if (rigid.velocity.x > maxSpeed)
+            rigid.velocity = new Vector2(maxSpeed, rigid.velocity.y); // Right Max Speed
+        else if (rigid.velocity.x < maxSpeed * (-1))
+            rigid.velocity = new Vector2(maxSpeed * (-1), rigid.velocity.y); // Left Max Speed
+
+        // Move By Button Control
+        if(isLeftMoveClick &&  !isRightMoveClick)
+        {
+            rigid.AddForce(-Vector2.right, ForceMode2D.Impulse);
+        }
+        else if(!isLeftMoveClick && isRightMoveClick)
+        {
+            rigid.AddForce(Vector2.right, ForceMode2D.Impulse);
+        }
 
         if (rigid.velocity.x > maxSpeed)
             rigid.velocity = new Vector2(maxSpeed, rigid.velocity.y); // Right Max Speed
@@ -127,5 +158,36 @@ public class PlayerMove : MonoBehaviour
             isLadder = false;
             anim.SetBool("isLaddering", false);
         }
+    }
+
+    public void buttonJump(PointerEventData data)
+    {
+        if (!anim.GetBool("isJumping"))
+        {
+            rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+            anim.SetBool("isJumping", true);
+        }
+    }
+
+    public void buttonLeftMoveDown(PointerEventData data)
+    {
+        isLeftMoveClick = true;
+    }
+
+    public void buttonLeftMoveUp(PointerEventData data)
+    {
+        isLeftMoveClick = false;
+        rigid.velocity = new Vector2(rigid.velocity.normalized.x * 0.5f, rigid.velocity.y);
+    }
+
+    public void buttonRightMoveDown(PointerEventData data)
+    {
+        isRightMoveClick = true;
+    }
+
+    public void buttonRightMoveUp(PointerEventData data)
+    {
+        isRightMoveClick = false;
+        rigid.velocity = new Vector2(rigid.velocity.normalized.x * 0.5f, rigid.velocity.y);
     }
 }

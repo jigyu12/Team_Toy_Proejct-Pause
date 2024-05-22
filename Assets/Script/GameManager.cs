@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor.EditorTools;
 using UnityEditor.Experimental.RestService;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -49,10 +50,10 @@ public class GameManager : MonoBehaviour
     void Init()
     {
         isLive = false;
-        maxHealth = 100;
+        maxHealth = 5;
         health = maxHealth;
         maxSpeed = 5;
-        jumpPower = 13;
+        jumpPower = 6;
         sceneNumberTemp = 1; // 임시 ////////////////////////////////////////////
     }
 
@@ -69,7 +70,7 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(scene.name == "MainTitle")
+        if (scene.name == "MainTitle")
         {
             Init();
 
@@ -85,6 +86,58 @@ public class GameManager : MonoBehaviour
         else
         {
             player = GameObject.Find("player");
+
+            if (scene.name == "stage1")
+            {
+                GameObject LeftButton = GameObject.Find("ui").transform.Find("left").gameObject;
+                
+                EventTrigger.Entry entry_PointerDown_LeftButton = new EventTrigger.Entry();
+                entry_PointerDown_LeftButton.eventID = EventTriggerType.PointerDown;
+                entry_PointerDown_LeftButton.callback.AddListener((data) => player.GetComponent<PlayerMove>().buttonLeftMoveDown((PointerEventData)data));
+                LeftButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_LeftButton);
+
+                EventTrigger.Entry entry_PointerUp_LeftButton = new EventTrigger.Entry();
+                entry_PointerUp_LeftButton.eventID = EventTriggerType.PointerUp;
+                entry_PointerUp_LeftButton.callback.AddListener((data) => player.GetComponent<PlayerMove>().buttonLeftMoveUp((PointerEventData)data));
+                LeftButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerUp_LeftButton);
+
+
+                GameObject RightButton = GameObject.Find("ui").transform.Find("right").gameObject;
+
+                EventTrigger.Entry entry_PointerDown_RightButton = new EventTrigger.Entry();
+                entry_PointerDown_RightButton.eventID = EventTriggerType.PointerDown;
+                entry_PointerDown_RightButton.callback.AddListener((data) => player.GetComponent<PlayerMove>().buttonRightMoveDown((PointerEventData)data));
+                RightButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_RightButton);
+
+                EventTrigger.Entry entry_PointerUp_RightButton = new EventTrigger.Entry();
+                entry_PointerUp_RightButton.eventID = EventTriggerType.PointerUp;
+                entry_PointerUp_RightButton.callback.AddListener((data) => player.GetComponent<PlayerMove>().buttonRightMoveUp((PointerEventData)data));
+                RightButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerUp_RightButton);
+
+
+                GameObject JumpButton = GameObject.Find("ui").transform.Find("jump").gameObject;
+
+                EventTrigger.Entry entry_PointerDown_JumpButton = new EventTrigger.Entry();
+                entry_PointerDown_JumpButton.eventID = EventTriggerType.PointerDown;
+                entry_PointerDown_JumpButton.callback.AddListener((data) => player.GetComponent<PlayerMove>().buttonJump((PointerEventData)data));
+                JumpButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_JumpButton);
+
+                // 안전하게 모든 triggers를 Remove하는 코드
+                /*
+                GameObject leftButton = GameObject.Find("ui").transform.Find("left").gameObject;
+
+                List<EventTrigger.Entry> entriesToRemove = new List<EventTrigger.Entry>();
+                foreach (var entry in leftButton.GetComponent<EventTrigger>().triggers)
+                {
+                    //entry.callback.RemoveAllListeners();
+                    entriesToRemove.Add(entry);
+                }
+                foreach (var entry in entriesToRemove)
+                {
+                    leftButton.GetComponent<EventTrigger>().triggers.Remove(entry);
+                }
+                */
+            }
         }
     }
 
