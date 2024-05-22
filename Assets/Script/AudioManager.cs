@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -65,17 +66,20 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    void Update()
+    // 씬이 로드 될때 마다 델리게이트 체인으로 걸어놓은 함수들이 실행된다.
+    void OnEnable()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
-        // left ctrl 키를 눌러 기능 검사
-        
-        if (Input.GetButtonDown("Fire1"))
-        {
-            PlayBgm(true);
-        }
-        
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        bgmPlayer.Play();
     }
 
     public static AudioManager Instance
