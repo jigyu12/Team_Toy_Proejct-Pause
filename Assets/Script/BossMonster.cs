@@ -17,11 +17,10 @@ public class BossMonster : Monster
 
     public State currentState = State.Idle;
 
+    public GameObject Spell;
     public bool isAttack = false;
 
-    protected int count = 0;
     protected EdgeCollider2D weapon;
-    protected Animator spellAnimator;
     void Awake()
     {
         base.Awake();
@@ -29,18 +28,12 @@ public class BossMonster : Monster
         weapon = transform.Find("MonsterAttack").GetComponent<EdgeCollider2D>();
         weapon.enabled = false;
 
-        spellAnimator = transform.Find("MonsterSkill").GetComponent<Animator>();
-
         atkCoolTime = 3f;
         atkCoolTimeCalc = atkCoolTime;
 
         StartCoroutine(FSM());
     }
 
-    //void FixedUpdate()
-    //{
-    //    GroundCheck();
-    //}
 
     IEnumerator FSM()
     {
@@ -115,7 +108,7 @@ public class BossMonster : Monster
             yield return null;
         }
 
-        if (currentState != State.Attack)
+        if (currentState != State.Attack || currentState != State.Skill)
         {
             currentState = Random.value >= 0.5f ? State.Idle : State.Walk;
             MonsterFlip();
@@ -169,13 +162,20 @@ public class BossMonster : Monster
 
         MyAnimSetTrigger("Skill");
 
-        spellAnimator.SetTrigger("Spell");
-
         yield return new WaitForSeconds(1f);
 
         currentState = State.Idle;
+    }
 
-        spellAnimator.SetTrigger("Idle");
+    void Cast()
+    {
+        Vector2 genPoint = new Vector2(GameManager.Instance.player.transform.position.x, transform.position.y);
+
+        GameObject spellClone = Instantiate(Spell, genPoint, Quaternion.identity);
+        if (spellClone != null)
+        {
+            Physics2D.IgnoreCollision(spellClone.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+        }
     }
 
     public override void TakeDamage(int damage)
