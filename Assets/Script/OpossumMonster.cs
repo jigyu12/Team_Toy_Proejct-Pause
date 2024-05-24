@@ -13,12 +13,16 @@ public class OpossumMonster : Monster
 
     public State currentState = State.Run;
 
+    protected EdgeCollider2D collider;
+
     private void Awake()
     {
         base.Awake();
 
         atkCoolTime = 3f;
         atkCoolTimeCalc = atkCoolTime;
+
+        collider = GetComponent<EdgeCollider2D>();
 
         StartCoroutine(FSM());
     }
@@ -65,6 +69,8 @@ public class OpossumMonster : Monster
     IEnumerator Death()
     {
         MyAnimSetTrigger("Death");
+
+        collider.enabled = false;
 
         // Death 애니메이션 재생 시간만큼 대기
         yield return new WaitForSeconds(2f);

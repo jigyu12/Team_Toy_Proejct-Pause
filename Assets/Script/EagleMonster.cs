@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BatMonster : Monster
+public class EagleMonster : Monster
 {
     public enum State
     {
-        Idle,
         Fly,
+        Attack,
         Hit,
         Death,
     };
 
-    public State currentState = State.Idle;
+    public State currentState = State.Fly;
 
     protected EdgeCollider2D collider;
 
@@ -34,11 +34,11 @@ public class BatMonster : Monster
         {
             switch (currentState)
             {
-                case State.Idle:
-                    yield return StartCoroutine(Idle());
-                    break;
                 case State.Fly:
                     yield return StartCoroutine(Fly());
+                    break;
+                case State.Attack:
+                    yield return StartCoroutine(Attack());
                     break;
                 case State.Hit:
                     yield return StartCoroutine(Hit());
@@ -48,16 +48,6 @@ public class BatMonster : Monster
                     break;
             }
         }
-    }
-
-    IEnumerator Idle()
-    {
-        MyAnimSetTrigger("Idle");
-
-        yield return new WaitForSeconds(1f);
-
-        if (Vector2.Distance(transform.position, GameManager.Instance.player.transform.position) < 10f)
-            currentState = State.Fly;
     }
 
     IEnumerator Fly()
@@ -71,14 +61,42 @@ public class BatMonster : Monster
             {
                 Move();
 
+                if (canAtk && IsPlayerDir())
+                {
+                    if (Random.value > 0.7f)
+                    {
+                        if (Vector2.Distance(transform.position, GameManager.Instance.player.transform.position) < 15f)
+                        {
+                            currentState = State.Attack;
+                            yield break;
+                        }
+                    }
+                }
             }
             yield return null;
         }
 
-        if (!IsPlayerDir())
+        if (currentState != State.Attack && !IsPlayerDir())
         {
             MonsterFlip();
         }
+    }
+
+    IEnumerator Attack()
+    {
+        yield return null;
+
+        canAtk = false;
+
+        MyAnimSetTrigger("Attack");
+
+        float attackSpeed = 10f;
+
+        Vector2 direction = (GameManager.Instance.player.transform.position - transform.position).normalized;
+        rb.velocity = new Vector2(direction.x * attackSpeed, direction.y * attackSpeed);
+
+        yield return new WaitForSeconds(Random.Range(0.5f, 1f));
+        currentState = State.Fly;
     }
 
     IEnumerator Hit()
@@ -108,11 +126,10 @@ public class BatMonster : Monster
         if (IsPlayerDir() && Vector2.Distance(transform.position, GameManager.Instance.player.transform.position) < 15f)
         {
             Vector2 direction = (GameManager.Instance.player.transform.position - transform.position).normalized;
-            //if (Random.value > 0.5f)
-            //    rb.velocity = new Vector2(direction.x * moveSpeed, direction.y * moveSpeed);
-            //else
-            //    rb.velocity = new Vector2(direction.x * moveSpeed, direction.y * -moveSpeed);
-            rb.velocity = new Vector2(direction.x * moveSpeed, direction.y * moveSpeed);
+            if (Random.value > 0.5f)
+                rb.velocity = new Vector2(direction.x * moveSpeed, direction.y * moveSpeed);
+            else
+                rb.velocity = new Vector2(direction.x * moveSpeed, direction.y * -moveSpeed);
         }
 
         Vector2 currentPos = transform.position; // 현재 위치 기준
