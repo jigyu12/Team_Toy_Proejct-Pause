@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
         maxHealth = 5;
         health = maxHealth;
         maxSpeed = 5;
-        jumpPower = 6;
+        jumpPower = 10;
         sceneNumberTemp = 1; // юс╫ц ////////////////////////////////////////////
     }
 
