@@ -2,25 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OpossumMonster : Monster
+public class LizardMonster : Monster
 {
     public enum State
     {
         Run,
+        Attack,
         Hit,
         Death,
     };
 
     public State currentState = State.Run;
 
+    public Transform genPoint;
+    public GameObject Bullet;
 
-    private void Awake()
+
+    void Awake()
     {
         base.Awake();
 
         atkCoolTime = 3f;
         atkCoolTimeCalc = atkCoolTime;
-
 
         StartCoroutine(FSM());
     }
@@ -34,6 +37,9 @@ public class OpossumMonster : Monster
                 case State.Run:
                     yield return StartCoroutine(Run());
                     break;
+                case State.Attack:
+                    yield return StartCoroutine(Attack());
+                    break;
                 case State.Hit:
                     yield return StartCoroutine(Hit());
                     break;
@@ -46,13 +52,31 @@ public class OpossumMonster : Monster
 
     IEnumerator Run()
     {
-        if (!isHit)
+        float runTime = Random.Range(2f, 4f);
+        while (runTime >= 0f)
         {
+            runTime -= Time.deltaTime;
             MyAnimSetTrigger("Run");
-            Move();
+            if (!isHit)
+            {
+                Move();
+
+                if (canAtk && IsPlayerDir())
+                {
+                    if (Vector2.Distance(transform.position, GameManager.Instance.player.transform.position) < 15f)
+                    {
+                        currentState = State.Attack;
+                        yield break;
+                    }
+                }
+            }
+            yield return null;
         }
 
-        yield return null;
+        if (currentState != State.Attack)
+        {
+            MonsterFlip();
+        }
     }
 
     IEnumerator Hit()
@@ -70,12 +94,33 @@ public class OpossumMonster : Monster
 
         capsuleCollider.enabled = false;
 
-        // Death 애니메이션 재생 시간만큼 대기
         yield return new WaitForSeconds(2f);
 
-        // 죽음 처리 로직 (예: 오브젝트 삭제)
         Destroy(gameObject);
     }
+
+    IEnumerator Attack()
+    {
+        yield return null;
+
+        canAtk = false;
+
+        MyAnimSetTrigger("Attack");
+
+        yield return new WaitForSeconds(Random.Range(0.5f, 1f)); // 총알 발사 간격
+        currentState = State.Run;
+    }
+
+    void Fire()
+    {
+        GameObject bulletClone = Instantiate(Bullet, genPoint.position, genPoint.rotation);
+        if (bulletClone != null)
+        {
+            bulletClone.GetComponent<Rigidbody2D>().velocity = transform.right * transform.localScale.x * 5f;
+            Physics2D.IgnoreCollision(bulletClone.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+        }
+    }
+
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
@@ -84,43 +129,10 @@ public class OpossumMonster : Monster
         {
             currentState = State.Death;
         }
+
         else
         {
             currentState = State.Hit;
         }
-    }
-    protected void OnTriggerEnter2D(Collider2D collision) // 플레이어와 부딪히면 방향 전환
-    {
-        if (collision.transform.CompareTag("PlayerHitBox"))
-        {
-            MonsterFlip();
-        }
-    }
-    public override void Move()
-    {
-        rb.velocity = new Vector2(transform.localScale.x * moveSpeed, rb.velocity.y);
-
-        if (MonsterDirLeft == true)
-            moveDir = -0.5f;
-        else
-            moveDir = 0.5f;
-
-        Vector2 currentPos = transform.position; // 현재 위치 기준
-        Vector2 frontVec = new Vector2(currentPos.x + transform.localScale.x, currentPos.y); // 앞 방향
-        Vector2 downVec = new Vector2(transform.position.x + moveDir, transform.position.y);
-
-        Debug.DrawRay(frontVec, MonsterDirLeft ? Vector3.right : Vector3.left, new Color(0, 1, 0));
-        Debug.DrawRay(downVec, Vector3.down, new Color(0, 1, 0));
-
-        RaycastHit2D front = Physics2D.Raycast(frontVec, MonsterDirLeft ? Vector3.right : Vector3.left, 1, LayerMask.GetMask("Platform"));
-
-        if (front.collider != null) // 벽 방향전환
-            MonsterFlip();
-
-
-        RaycastHit2D down = Physics2D.Raycast(downVec, Vector3.down, 1, LayerMask.GetMask("Platform"));
-
-        if (down.collider == null)
-            MonsterFlip();
     }
 }

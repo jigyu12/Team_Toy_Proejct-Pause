@@ -14,7 +14,6 @@ public class EagleMonster : Monster
 
     public State currentState = State.Fly;
 
-    protected EdgeCollider2D collider;
 
     private void Awake()
     {
@@ -23,7 +22,6 @@ public class EagleMonster : Monster
         atkCoolTime = 3f;
         atkCoolTimeCalc = atkCoolTime;
 
-        collider = GetComponent<EdgeCollider2D>();
 
         StartCoroutine(FSM());
     }
@@ -114,7 +112,7 @@ public class EagleMonster : Monster
 
         rb.gravityScale = 1;
 
-        collider.enabled = false;
+        capsuleCollider.enabled = false;
 
         yield return new WaitForSeconds(2f);
 
