@@ -46,6 +46,9 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
+        if (Time.deltaTime == 0)
+            return;
+
         // Jump
         if (Input.GetButtonDown("Jump") && !anim.GetBool("isJumping") )
         {
