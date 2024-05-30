@@ -77837,6 +77837,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: OptionPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 793963920000772486, guid: 46cb49536e26f0649be86504ca7077d4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7970037822165652230, guid: 46cb49536e26f0649be86504ca7077d4, type: 3}
       propertyPath: m_LocalScale.x
       value: 1

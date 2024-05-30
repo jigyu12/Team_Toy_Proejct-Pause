@@ -22,9 +22,11 @@ public class GameManager : MonoBehaviour
 
     public GameObject player;
     public int sceneNumberTemp; // 임시 ////////////////////////////////////////////
+    bool isButtonSet;
 
     private Button playButton;
     private Button volumeButton;
+    private Button volumeOffButton;
     private Button exitButton;
 
     private static GameManager instance;
@@ -54,6 +56,7 @@ public class GameManager : MonoBehaviour
         health = maxHealth;
         maxSpeed = 5;
         jumpPower = 10;
+        isButtonSet = false;
         sceneNumberTemp = 1; // 임시 ////////////////////////////////////////////
     }
 
@@ -70,6 +73,7 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        
         if (scene.name == "MainTitle")
         {
             Init();
@@ -80,6 +84,9 @@ public class GameManager : MonoBehaviour
             volumeButton = GameObject.Find("Volume").GetComponent<Button>();
             volumeButton.onClick.AddListener(() => SwitchBgmPause(AudioManager.Instance.IsBgmPlaying));
 
+            volumeOffButton = GameObject.Find("Main").transform.Find("Volume-OFF").GetComponent<Button>();
+            volumeOffButton.onClick.AddListener(() => SwitchBgmPause(AudioManager.Instance.IsBgmPlaying));
+
             exitButton = GameObject.Find("Exit").GetComponent<Button>();
             exitButton.onClick.AddListener(QuitGame);
         }
@@ -87,8 +94,24 @@ public class GameManager : MonoBehaviour
         {
             player = GameObject.Find("player");
 
-            if (scene.name == "stage1")
+            if (scene.name == "stage1" && !isButtonSet)
             {
+                isButtonSet = true;
+
+                GameObject leftButton = GameObject.Find("ui").transform.Find("left").gameObject;
+
+                List<EventTrigger.Entry> entriesToRemove = new List<EventTrigger.Entry>();
+                foreach (var entry in leftButton.GetComponent<EventTrigger>().triggers)
+                {
+                    //entry.callback.RemoveAllListeners();
+                    entriesToRemove.Add(entry);
+                }
+                foreach (var entry in entriesToRemove)
+                {
+                    leftButton.GetComponent<EventTrigger>().triggers.Remove(entry);
+                }
+
+
                 GameObject LeftButton = GameObject.Find("ui").transform.Find("left").gameObject;
                 
                 EventTrigger.Entry entry_PointerDown_LeftButton = new EventTrigger.Entry();
@@ -100,7 +123,7 @@ public class GameManager : MonoBehaviour
                 entry_PointerUp_LeftButton.eventID = EventTriggerType.PointerUp;
                 entry_PointerUp_LeftButton.callback.AddListener((data) => player.GetComponent<PlayerMove>().buttonLeftMoveUp((PointerEventData)data));
                 LeftButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerUp_LeftButton);
-
+                
 
                 GameObject RightButton = GameObject.Find("ui").transform.Find("right").gameObject;
 
@@ -122,21 +145,55 @@ public class GameManager : MonoBehaviour
                 entry_PointerDown_JumpButton.callback.AddListener((data) => player.GetComponent<PlayerMove>().buttonJump((PointerEventData)data));
                 JumpButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_JumpButton);
 
-                // 안전하게 모든 triggers를 Remove하는 코드
-                /*
-                GameObject leftButton = GameObject.Find("ui").transform.Find("left").gameObject;
+                
+                GameObject soundButton = GameObject.Find("OptionPanelDetect").transform.Find("OptionPanel").transform.Find("Canvas").transform.Find("sound").gameObject;
 
-                List<EventTrigger.Entry> entriesToRemove = new List<EventTrigger.Entry>();
-                foreach (var entry in leftButton.GetComponent<EventTrigger>().triggers)
-                {
-                    //entry.callback.RemoveAllListeners();
-                    entriesToRemove.Add(entry);
-                }
-                foreach (var entry in entriesToRemove)
-                {
-                    leftButton.GetComponent<EventTrigger>().triggers.Remove(entry);
-                }
-                */
+                EventTrigger.Entry entry_PointerDown_soundButton = new EventTrigger.Entry();
+                entry_PointerDown_soundButton.eventID = EventTriggerType.PointerDown;
+                entry_PointerDown_soundButton.callback.AddListener((data) => SwitchBgmPause());
+                soundButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_soundButton);
+                
+
+                GameObject soundOffButton = GameObject.Find("OptionPanelDetect").transform.Find("OptionPanel").transform.Find("Canvas").transform.Find("sound off").gameObject;
+
+                EventTrigger.Entry entry_PointerDown_soundOffButton = new EventTrigger.Entry();
+                entry_PointerDown_soundOffButton.eventID = EventTriggerType.PointerDown;
+                entry_PointerDown_soundOffButton.callback.AddListener((data) => SwitchBgmPause());
+                soundOffButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_soundOffButton);
+
+                
+                GameObject mainButton = GameObject.Find("OptionPanelDetect").transform.Find("OptionPanel").transform.Find("Canvas").transform.Find("main").gameObject;
+
+                EventTrigger.Entry entry_PointerDown_mainButton = new EventTrigger.Entry();
+                entry_PointerDown_mainButton.eventID = EventTriggerType.PointerDown;
+                entry_PointerDown_mainButton.callback.AddListener((data) => GotoMain());
+                entry_PointerDown_mainButton.callback.AddListener((data) => ResumeGame());
+                mainButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_mainButton);
+
+
+                GameObject restartButton = GameObject.Find("OptionPanelDetect").transform.Find("OptionPanel").transform.Find("Canvas").transform.Find("restart").gameObject;
+
+                EventTrigger.Entry entry_PointerDown_restartButton = new EventTrigger.Entry();
+                entry_PointerDown_restartButton.eventID = EventTriggerType.PointerDown;
+                entry_PointerDown_restartButton.callback.AddListener((data) => RestartGame());
+                restartButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_restartButton);
+
+
+                GameObject settingButton = GameObject.Find("setting_button").gameObject;
+
+                EventTrigger.Entry entry_PointerDown_settingButton = new EventTrigger.Entry();
+                entry_PointerDown_settingButton.eventID = EventTriggerType.PointerDown;
+                entry_PointerDown_settingButton.callback.AddListener((data) => PauseGame());
+                settingButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_settingButton);
+
+
+                GameObject cancelButton = GameObject.Find("OptionPanelDetect").transform.Find("OptionPanel").transform.Find("Canvas").transform.Find("cancel").gameObject;
+
+                EventTrigger.Entry entry_PointerDown_cancelButton = new EventTrigger.Entry();
+                entry_PointerDown_cancelButton.eventID = EventTriggerType.PointerDown;
+                entry_PointerDown_cancelButton.callback.AddListener((data) => ResumeGame());
+                cancelButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_cancelButton);
+
             }
         }
     }
@@ -144,20 +201,14 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
-
-        // left alt 키를 눌러 기능 검사
-
-        if (Input.GetButtonDown("Fire2"))
-        {
-            LoadScene(0);
-        }
-
         // left shift 키를 눌러 기능 검사 // 임시 ////////////////////////////////////////////
 
         if (Input.GetButtonDown("Fire3"))
         {
+            
             sceneNumberTemp++;
             LoadScene(sceneNumberTemp);
+            
         }
 
     }
@@ -182,6 +233,11 @@ public class GameManager : MonoBehaviour
         LoadScene(1); // 제일 첫 스테이지의 빌드 번호를 넣으면 된다.
     }
 
+    public void GotoMain()
+    {
+        LoadScene(0);
+    }
+
     public void QuitGame()
     {
         Application.Quit();
@@ -197,6 +253,18 @@ public class GameManager : MonoBehaviour
     public void SwitchBgmPause(bool bgmIsPlaying)
     {
         if(bgmIsPlaying)
+        {
+            AudioManager.Instance.PauseBgm(true);
+        }
+        else
+        {
+            AudioManager.Instance.PauseBgm(false);
+        }
+    }
+
+    public void SwitchBgmPause()
+    {
+        if (AudioManager.Instance.IsBgmPlaying)
         {
             AudioManager.Instance.PauseBgm(true);
         }
