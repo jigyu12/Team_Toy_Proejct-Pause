@@ -53,8 +53,12 @@ public class EagleMonster : Monster
         float runTime = Random.Range(2f, 4f);
         while (runTime >= 0f)
         {
+            if (currentState == State.Hit || currentState == State.Death)
+                yield break;
+
             runTime -= Time.deltaTime;
             MyAnimSetTrigger("Fly");
+
             if (!isHit)
             {
                 Move();
@@ -93,7 +97,18 @@ public class EagleMonster : Monster
         Vector2 direction = (GameManager.Instance.player.transform.position - transform.position).normalized;
         rb.velocity = new Vector2(direction.x * attackSpeed, direction.y * attackSpeed);
 
-        yield return new WaitForSeconds(Random.Range(0.5f, 1f));
+        float attackDuration = Random.Range(0.5f, 1f);
+        float timer = 0f;
+        while (timer < attackDuration)
+        {
+            timer += Time.deltaTime;
+            if (currentState == State.Hit || currentState == State.Death)
+                yield break;
+
+            yield return null;
+        }
+
+
         currentState = State.Fly;
     }
 

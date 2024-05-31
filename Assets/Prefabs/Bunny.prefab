@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a08ce811bf58644ae77a21dadbe1fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHp: 0
+  currentHp: 2
   moveSpeed: 2
   jumpPower: 3
   atkCoolTime: 3
@@ -210,6 +210,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4376884158824627538}
   - component: {fileID: 8693330532782522956}
+  - component: {fileID: 6741176964162940385}
   m_Layer: 11
   m_Name: MonsterHitBox
   m_TagString: MonsterHitBox
@@ -348,3 +349,15 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &6741176964162940385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8366910003085055442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fc9e807998a35a479c87a7db07995c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

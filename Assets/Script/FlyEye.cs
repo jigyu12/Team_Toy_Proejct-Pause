@@ -13,8 +13,6 @@ public class FlyEye : Monster
 
     public State currentState = State.Fly;
 
-    protected EdgeCollider2D collider;
-
     private void Awake()
     {
         base.Awake();
@@ -22,7 +20,6 @@ public class FlyEye : Monster
         atkCoolTime = 3f;
         atkCoolTimeCalc = atkCoolTime;
 
-        collider = GetComponent<EdgeCollider2D>();
 
         StartCoroutine(FSM());
     }
@@ -48,18 +45,13 @@ public class FlyEye : Monster
 
     IEnumerator Fly()
     {
-        float runTime = Random.Range(2f, 4f);
-        while (runTime >= 0f)
+        if (!isHit)
         {
-            runTime -= Time.deltaTime;
             MyAnimSetTrigger("Fly");
-            if (!isHit)
-            {
-                Move();
-
-            }
-            yield return null;
+            Move();
         }
+
+        yield return null;
 
         if (!IsPlayerDir())
         {
@@ -82,9 +74,9 @@ public class FlyEye : Monster
 
         rb.gravityScale = 1;
 
-        collider.enabled = false;
+        capsuleCollider.enabled = false;
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
 
         Destroy(gameObject);
     }

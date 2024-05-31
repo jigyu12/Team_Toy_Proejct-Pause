@@ -22,7 +22,6 @@ public class RangedMonster : Monster
     {
         base.Awake();
 
-        atkCoolTime = 3f;
         atkCoolTimeCalc = atkCoolTime;
 
         StartCoroutine(FSM());
@@ -70,8 +69,12 @@ public class RangedMonster : Monster
         float runTime = Random.Range(2f, 4f);
         while (runTime >= 0f)
         {
+            if (currentState == State.Hit || currentState == State.Death)
+                yield break;
+
             runTime -= Time.deltaTime;
             MyAnimSetTrigger("Run");
+
             if (!isHit)
             {
                 Move();
@@ -90,9 +93,38 @@ public class RangedMonster : Monster
 
         if (currentState != State.Attack)
         {
-            currentState = Random.value >= 0.5f ? State.Idle : State.Run;
-            MonsterFlip();
+            if (Random.value > 0.5f)
+            {
+                MonsterFlip();
+            }
+            else
+            {
+                currentState = State.Idle;
+            }
         }
+
+    }
+
+    IEnumerator Attack()
+    {
+        yield return null;
+
+        canAtk = false;
+
+        MyAnimSetTrigger("Attack");
+
+        float attackDuration = Random.Range(0.5f, 1f);
+        float timer = 0f;
+        while (timer < attackDuration)
+        {
+            timer += Time.deltaTime;
+            if (currentState == State.Hit || currentState == State.Death)
+                yield break;
+
+            yield return null;
+        }
+
+        currentState = State.Idle;
     }
 
     IEnumerator Hit()
@@ -108,21 +140,17 @@ public class RangedMonster : Monster
     {
         MyAnimSetTrigger("Death");
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
 
         Destroy(gameObject);
     }
 
-    IEnumerator Attack()
+    protected void OnTriggerEnter2D(Collider2D collision) // 플레이어와 부딪히면 방향 전환
     {
-        yield return null;
-
-        canAtk = false;
-
-        MyAnimSetTrigger("Attack");
-
-        yield return new WaitForSeconds(Random.Range(0.5f, 1f)); // 총알 발사 간격
-        currentState = State.Idle;
+        if (collision.transform.CompareTag("PlayerHitBox"))
+        {
+            MonsterFlip();
+        }
     }
 
     void Fire()

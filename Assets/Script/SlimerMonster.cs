@@ -14,7 +14,6 @@ public class SlimerMonster : Monster
 
     public State currentState = State.Idle;
 
-    protected EdgeCollider2D collider;
 
     private void Awake()
     {
@@ -22,8 +21,6 @@ public class SlimerMonster : Monster
 
         atkCoolTime = 3f;
         atkCoolTimeCalc = atkCoolTime;
-
-        collider = GetComponent<EdgeCollider2D>();
 
         StartCoroutine(FSM());
     }
@@ -68,6 +65,9 @@ public class SlimerMonster : Monster
         float runTime = Random.Range(2f, 4f);
         while (runTime >= 0f)
         {
+            if (currentState == State.Hit || currentState == State.Death)
+                yield break;
+
             runTime -= Time.deltaTime;
             MyAnimSetTrigger("Run");
             if (!isHit)
@@ -100,12 +100,8 @@ public class SlimerMonster : Monster
     {
         MyAnimSetTrigger("Death");
 
-        collider.enabled = false;
+        yield return new WaitForSeconds(1f);
 
-        // Death 애니메이션 재생 시간만큼 대기
-        yield return new WaitForSeconds(2f);
-
-        // 죽음 처리 로직 (예: 오브젝트 삭제)
         Destroy(gameObject);
     }
 

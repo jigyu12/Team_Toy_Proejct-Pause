@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39a032e0e37e391489f5e77255b4d4a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHp: 0
+  currentHp: 2
   moveSpeed: 2
   jumpPower: 0
   atkCoolTime: 3
@@ -209,7 +209,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1961795306453451781}
-  - component: {fileID: 3659869818985307298}
+  - component: {fileID: 6014399485405063793}
+  - component: {fileID: 8023370361639048964}
   m_Layer: 11
   m_Name: MonsterHitBox
   m_TagString: MonsterHitBox
@@ -232,8 +233,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3926699432205162201}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!68 &3659869818985307298
-EdgeCollider2D:
+--- !u!70 &6014399485405063793
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -264,12 +265,18 @@ EdgeCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: -0.5, y: 0}
-  - {x: 0.5, y: 0}
-  m_AdjacentStartPoint: {x: 0, y: 0}
-  m_AdjacentEndPoint: {x: 0, y: 0}
-  m_UseAdjacentStartPoint: 0
-  m_UseAdjacentEndPoint: 0
+  m_Offset: {x: 0.023532867, y: 0.057887614}
+  m_Size: {x: 0.54058075, y: 0.70681655}
+  m_Direction: 0
+--- !u!114 &8023370361639048964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7734471976990143594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fc9e807998a35a479c87a7db07995c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

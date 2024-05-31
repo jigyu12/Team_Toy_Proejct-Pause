@@ -147,10 +147,10 @@ public class Monster : MonoBehaviour
 
     //protected void OnTriggerEnter2D(Collider2D collision) // 플레이어 투사체에 피격
     //{
-    //    //if ( collision.transform.CompareTag ( ?? ) )
-    //    //{
-    //    //TakeDamage ( 0 );
-    //    //}
+    //    if (collision.transform.CompareTag("PlayerProjectile"))
+    //    {
+    //        TakeDamage(1);
+    //    }
     //}
 
     public virtual void Move()

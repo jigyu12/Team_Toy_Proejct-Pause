@@ -184,7 +184,7 @@ public class PlayerMove : MonoBehaviour
             anim.SetBool("isLaddering", true);
         }
 
-        if (collision.CompareTag("Monster") && !isHurt)
+        if ((collision.CompareTag("Monster") || collision.CompareTag("MonsterProjectile") || collision.CompareTag("MonsterAttack")) && !isHurt)
         {
             StartCoroutine(PlayerHurt());
         }

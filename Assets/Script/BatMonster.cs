@@ -14,7 +14,6 @@ public class BatMonster : Monster
 
     public State currentState = State.Idle;
 
-    protected EdgeCollider2D collider;
 
     private void Awake()
     {
@@ -22,8 +21,6 @@ public class BatMonster : Monster
 
         atkCoolTime = 3f;
         atkCoolTimeCalc = atkCoolTime;
-
-        collider = GetComponent<EdgeCollider2D>();
 
         StartCoroutine(FSM());
     }
@@ -65,8 +62,12 @@ public class BatMonster : Monster
         float runTime = Random.Range(2f, 4f);
         while (runTime >= 0f)
         {
+            if (currentState == State.Hit || currentState == State.Death)
+                yield break;
+
             runTime -= Time.deltaTime;
             MyAnimSetTrigger("Fly");
+
             if (!isHit)
             {
                 Move();
@@ -96,7 +97,7 @@ public class BatMonster : Monster
 
         rb.gravityScale = 1;
 
-        collider.enabled = false;
+        capsuleCollider.enabled = false;
 
         yield return new WaitForSeconds(2f);
 

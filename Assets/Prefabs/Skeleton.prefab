@@ -210,6 +210,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9137286143757667339}
   - component: {fileID: 609509623295283291}
+  - component: {fileID: 8376045250694610996}
   m_Layer: 11
   m_Name: MonsterHitBox
   m_TagString: MonsterHitBox
@@ -277,3 +278,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.49435174, y: 0.84672165}
   m_EdgeRadius: 0
+--- !u!114 &8376045250694610996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4433113175750000848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fc9e807998a35a479c87a7db07995c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

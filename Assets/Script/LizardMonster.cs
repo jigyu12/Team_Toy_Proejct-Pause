@@ -55,8 +55,12 @@ public class LizardMonster : Monster
         float runTime = Random.Range(2f, 4f);
         while (runTime >= 0f)
         {
+            if (currentState == State.Hit || currentState == State.Death)
+                yield break;
+
             runTime -= Time.deltaTime;
             MyAnimSetTrigger("Run");
+
             if (!isHit)
             {
                 Move();
@@ -77,26 +81,7 @@ public class LizardMonster : Monster
         {
             MonsterFlip();
         }
-    }
 
-    IEnumerator Hit()
-    {
-        MyAnimSetTrigger("Hit");
-
-        yield return new WaitForSeconds(0.5f); // Hit 애니메이션 재생 시간
-
-        currentState = State.Run;
-    }
-
-    IEnumerator Death()
-    {
-        MyAnimSetTrigger("Death");
-
-        capsuleCollider.enabled = false;
-
-        yield return new WaitForSeconds(2f);
-
-        Destroy(gameObject);
     }
 
     IEnumerator Attack()
@@ -107,8 +92,46 @@ public class LizardMonster : Monster
 
         MyAnimSetTrigger("Attack");
 
-        yield return new WaitForSeconds(Random.Range(0.5f, 1f)); // 총알 발사 간격
+        float attackDuration = Random.Range(0.5f, 1f);
+        float timer = 0f;
+        while (timer < attackDuration)
+        {
+            timer += Time.deltaTime;
+            if (currentState == State.Hit || currentState == State.Death)
+                yield break;
+
+            yield return null;
+        }
+
         currentState = State.Run;
+    }
+
+    IEnumerator Hit()
+    {
+        MyAnimSetTrigger("Hit");
+
+        yield return new WaitForSeconds(0.5f); // Hit 애니메이션 재생 시간
+
+        currentState = State.Run;
+
+    }
+
+    IEnumerator Death()
+    {
+        MyAnimSetTrigger("Death");
+
+        capsuleCollider.enabled = false;
+
+        yield return new WaitForSeconds(1f);
+
+        Destroy(gameObject);
+    }
+    protected void OnTriggerEnter2D(Collider2D collision) // 플레이어와 부딪히면 방향 전환
+    {
+        if (collision.transform.CompareTag("PlayerHitBox"))
+        {
+            MonsterFlip();
+        }
     }
 
     void Fire()

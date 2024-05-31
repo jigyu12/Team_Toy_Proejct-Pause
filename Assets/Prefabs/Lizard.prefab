@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5821545485214068518}
   - component: {fileID: 910361265387304411}
+  - component: {fileID: 642242764076315840}
   m_Layer: 11
   m_Name: MonsterHitBox
   m_TagString: MonsterHitBox
@@ -128,6 +129,18 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &642242764076315840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1742526908480384309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fc9e807998a35a479c87a7db07995c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3511058200046845207
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,7 +326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 774e9984f1f48a5429330cdafea01cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHp: 0
+  currentHp: 2
   moveSpeed: 2
   jumpPower: 0
   atkCoolTime: 3
@@ -340,7 +353,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2937358807113212203}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: GenPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

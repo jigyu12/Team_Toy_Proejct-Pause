@@ -77,12 +77,14 @@ public class BossMonster : Monster
         float runTime = Random.Range(2f, 4f);
         while (runTime >= 0f)
         {
+            if (currentState == State.Hit || currentState == State.Death)
+                yield break;
+
             runTime -= Time.deltaTime;
+            MyAnimSetTrigger("Walk");
 
             if (!isHit)
             {
-                MyAnimSetTrigger("Walk");
-
                 Move();
 
                 if (canAtk && IsPlayerDir()) // Attack, Skill
@@ -136,7 +138,7 @@ public class BossMonster : Monster
     {
         MyAnimSetTrigger("Death");
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
 
         Destroy(gameObject);
     }
@@ -149,7 +151,18 @@ public class BossMonster : Monster
 
         MyAnimSetTrigger("Attack");
 
-        yield return new WaitForSeconds(1f);
+        float attackDuration = 1f;
+        float timer = 0f;
+        while (timer < attackDuration)
+        {
+            timer += Time.deltaTime;
+            if (currentState == State.Hit || currentState == State.Death)
+                yield break;
+
+            yield return null;
+        }
+
+        
 
         currentState = State.Idle;
     }
@@ -162,7 +175,16 @@ public class BossMonster : Monster
 
         MyAnimSetTrigger("Skill");
 
-        yield return new WaitForSeconds(1f);
+        float attackDuration = 1f;
+        float timer = 0f;
+        while (timer < attackDuration)
+        {
+            timer += Time.deltaTime;
+            if (currentState == State.Hit || currentState == State.Death)
+                yield break;
+
+            yield return null;
+        }
 
         currentState = State.Idle;
     }
