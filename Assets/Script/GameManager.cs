@@ -13,8 +13,8 @@ public class GameManager : MonoBehaviour
     [Header("# Game Control")]
     [SerializeField] private bool isLive;
     [Header("# Player Info")]
-    [SerializeField] private float health;
-    [SerializeField] private float maxHealth;
+    [SerializeField] private int health;
+    [SerializeField] private int maxHealth;
     [SerializeField] private float maxSpeed;
     [SerializeField] private float jumpPower;
     [SerializeField] private GameObject[] weaponInventory;
@@ -352,5 +352,19 @@ public class GameManager : MonoBehaviour
             return;
 
         jumpPower = jpower;
+    }
+
+    public int GetHp()
+    {
+        return health;
+    }
+
+    // 1 추가할거면 1, 1 줄일거면 -1을 파라미터로 넣으면 됨
+    public void SetHp(int change)
+    {
+        if (health + change > maxHealth)
+            return;
+
+        health += change;
     }
 }
