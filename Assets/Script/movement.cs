@@ -7,16 +7,20 @@ public class PlayerMove : MonoBehaviour
 {
     float maxSpeed; // 값을 변경 후, 게임 매니져의 같은 값도 변경해야 함(함수 사용).
     float jumpPower; // 값을 변경 후, 게임 매니져의 같은 값도 변경해야 함(함수 사용).
-
+    
     bool isLeftMoveClick;
     bool isRightMoveClick;
 
     bool isHurt;
 
+    
     Rigidbody2D rigid;
     SpriteRenderer spriteRenderer;
     Animator anim;
     BoxCollider2D ladderCollider; // 사다리 콜라이더를 저장할 변수
+
+    public Transform genPoint;
+    public GameObject Bullet;
 
     void Awake()
     {
@@ -57,9 +61,8 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetButtonDown("Jump") && !anim.GetBool("isJumping") )
         {
             
-                rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-                anim.SetBool("isJumping", true);
-            
+            rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+            anim.SetBool("isJumping", true);
         }
 
         // Stop Speed
@@ -86,6 +89,27 @@ public class PlayerMove : MonoBehaviour
             anim.SetBool("isWalking", false);
         else
             anim.SetBool("isWalking", true);
+
+
+        if (Input.GetButtonDown("Fire1")) // Ctrl
+        {
+            anim.SetBool("isShoot", true);
+        }
+
+        else if (Input.GetButtonUp("Fire1"))
+        {
+            anim.SetBool("isShoot", false);
+        }
+
+        if (spriteRenderer.flipX) // 총알 생성 위치 조정
+        {
+            genPoint.localPosition = new Vector2(-Mathf.Abs(genPoint.localPosition.x), genPoint.localPosition.y);
+        }
+
+        else if (!spriteRenderer.flipX)
+        {
+            genPoint.localPosition = new Vector2(Mathf.Abs(genPoint.localPosition.x), genPoint.localPosition.y);
+        }
     }
 
     void FixedUpdate()
@@ -215,5 +239,31 @@ public class PlayerMove : MonoBehaviour
     {
         isRightMoveClick = false;
         rigid.velocity = new Vector2(rigid.velocity.normalized.x * 0.5f, rigid.velocity.y);
+    }
+
+    void shoot()
+    {
+        GameObject bulletClone = Instantiate(Bullet, genPoint.position, genPoint.rotation);
+
+        if (bulletClone != null)
+        {
+            Rigidbody2D bulletRigidbody = bulletClone.GetComponent<Rigidbody2D>();
+
+            float direction = spriteRenderer.flipX ? -1 : 1;
+            bulletRigidbody.velocity = new Vector2((transform.right.x * direction * 5f) + rigid.velocity.x, 0);
+            Physics2D.IgnoreCollision(bulletClone.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+
+            SpriteRenderer bulletSpriteRenderer = bulletClone.GetComponent<SpriteRenderer>();
+
+            if (spriteRenderer.flipX) // 총알 스프라이트 반전
+            {
+                bulletSpriteRenderer.flipX = true;
+            }
+
+            else if (!spriteRenderer.flipX)
+            {
+                bulletSpriteRenderer.flipX = false;
+            }
+        }
     }
 }
