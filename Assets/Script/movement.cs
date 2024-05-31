@@ -11,6 +11,8 @@ public class PlayerMove : MonoBehaviour
     bool isLeftMoveClick;
     bool isRightMoveClick;
 
+    bool isHurt;
+
     Rigidbody2D rigid;
     SpriteRenderer spriteRenderer;
     Animator anim;
@@ -24,6 +26,8 @@ public class PlayerMove : MonoBehaviour
 
         isLeftMoveClick = false;
         isRightMoveClick = false;
+
+        isHurt = false;
 
         if (GameObject.FindGameObjectWithTag("ladder"))
         {
@@ -46,7 +50,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
-        if (Time.deltaTime == 0)
+        if (Time.deltaTime == 0 || isHurt)
             return;
 
         // Jump
@@ -86,6 +90,9 @@ public class PlayerMove : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (isHurt)
+            return;
+
         // Move By Key Control
         float h = Input.GetAxisRaw("Horizontal");
 
@@ -99,11 +106,11 @@ public class PlayerMove : MonoBehaviour
         // Move By Button Control
         if(isLeftMoveClick &&  !isRightMoveClick)
         {
-            rigid.AddForce(-Vector2.right, ForceMode2D.Impulse);
+            rigid.AddForce(Vector2.right, ForceMode2D.Impulse);
         }
         else if(!isLeftMoveClick && isRightMoveClick)
         {
-            rigid.AddForce(Vector2.right, ForceMode2D.Impulse);
+            rigid.AddForce(-Vector2.right, ForceMode2D.Impulse);
         }
 
         if (rigid.velocity.x > maxSpeed)
@@ -152,6 +159,22 @@ public class PlayerMove : MonoBehaviour
             isLadder = true;
             anim.SetBool("isLaddering", true);
         }
+
+        if (collision.CompareTag("Monster") && !isHurt)
+        {
+            StartCoroutine(PlayerHurt());
+        }
+    }
+
+    IEnumerator PlayerHurt()
+    {
+        isHurt = true;
+        GameManager.Instance.SetHp(-1);
+        anim.SetTrigger("isHurt");
+        
+        yield return new WaitForSeconds(0.5f);
+
+        isHurt = false;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
