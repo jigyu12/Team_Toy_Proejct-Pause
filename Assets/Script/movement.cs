@@ -17,7 +17,7 @@ public class PlayerMove : MonoBehaviour
     Rigidbody2D rigid;
     SpriteRenderer spriteRenderer;
     Animator anim;
-    BoxCollider2D ladderCollider; // 사다리 콜라이더를 저장할 변수
+    CapsuleCollider2D ladderCollider; // 사다리 콜라이더를 저장할 변수
 
     public Transform genPoint;
     public GameObject Bullet;
@@ -35,10 +35,10 @@ public class PlayerMove : MonoBehaviour
 
         if (GameObject.FindGameObjectWithTag("ladder"))
         {
-            ladderCollider = GameObject.FindGameObjectWithTag("ladder").GetComponent<BoxCollider2D>();
+            ladderCollider = GameObject.FindGameObjectWithTag("ladder").GetComponent<CapsuleCollider2D>();
         }
         /*
-        ladderCollider = GameObject.FindGameObjectWithTag("ladder").GetComponent<BoxCollider2D>();
+        ladderCollider = GameObject.FindGameObjectWithTag("ladder").GetComponent<CapsuleCollider2D>();
         if (ladderCollider == null)
         {
             Debug.LogError("사다리 콜라이더를 찾을 수 없습니다!");
