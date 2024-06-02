@@ -248,13 +248,18 @@ public class PlayerMove : MonoBehaviour
         if (bulletClone != null)
         {
             Rigidbody2D bulletRigidbody = bulletClone.GetComponent<Rigidbody2D>();
+            if (bulletRigidbody != null)
+            {
+                float direction = spriteRenderer.flipX ? -1 : 1;
+                bulletRigidbody.velocity = new Vector2((transform.right.x * direction * 5f) + rigid.velocity.x, 0);
+                Collider2D bulletCollider = bulletClone.GetComponent<Collider2D>();
+                if (bulletCollider != null)
+                {
+                    Physics2D.IgnoreCollision(bulletCollider, GetComponent<Collider2D>());
+                }
+                SpriteRenderer bulletSpriteRenderer = bulletClone.GetComponent<SpriteRenderer>();
 
-            float direction = spriteRenderer.flipX ? -1 : 1;
-            bulletRigidbody.velocity = new Vector2((transform.right.x * direction * 5f) + rigid.velocity.x, 0);
-            Physics2D.IgnoreCollision(bulletClone.GetComponent<Collider2D>(), GetComponent<Collider2D>());
-
-            SpriteRenderer bulletSpriteRenderer = bulletClone.GetComponent<SpriteRenderer>();
-
+                /*
             if (spriteRenderer.flipX) // 총알 스프라이트 반전
             {
                 bulletSpriteRenderer.flipX = true;
@@ -263,6 +268,12 @@ public class PlayerMove : MonoBehaviour
             else if (!spriteRenderer.flipX)
             {
                 bulletSpriteRenderer.flipX = false;
+            }
+                */
+                if (bulletSpriteRenderer != null)
+                {
+                    bulletSpriteRenderer.flipX = spriteRenderer.flipX;
+                }
             }
         }
     }
