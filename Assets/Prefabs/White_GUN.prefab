@@ -162,5 +162,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponDamage: 1
-  weaponId: 1
+  weaponId: 3
   projectileId: 1
