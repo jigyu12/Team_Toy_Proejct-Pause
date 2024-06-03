@@ -20,7 +20,8 @@ public class PlayerMove : MonoBehaviour
     CapsuleCollider2D ladderCollider; // 사다리 콜라이더를 저장할 변수
 
     public Transform genPoint;
-    public GameObject Bullet;
+    public GameObject[] Bullet;
+    private int currentBulletIndex = 0;
 
     void Awake()
     {
@@ -243,7 +244,7 @@ public class PlayerMove : MonoBehaviour
 
     void shoot()
     {
-        GameObject bulletClone = Instantiate(Bullet, genPoint.position, genPoint.rotation);
+        GameObject bulletClone = Instantiate(Bullet[currentBulletIndex], genPoint.position, genPoint.rotation);
 
         if (bulletClone != null)
         {
@@ -275,6 +276,14 @@ public class PlayerMove : MonoBehaviour
                     bulletSpriteRenderer.flipX = spriteRenderer.flipX;
                 }
             }
+        }
+    }
+
+    public void ChangeBullet(int bulletIndex)
+    {
+        if (bulletIndex >= 0 && bulletIndex < Bullet.Length)
+        {
+            currentBulletIndex = bulletIndex;
         }
     }
 }
