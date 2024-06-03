@@ -400,5 +400,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   genPoint: {fileID: 9143355216949301991}
-  Bullet: {fileID: 5952394858796494878, guid: 1a08f702e881e414bafb0d9d1191a97e, type: 3}
+  Bullet:
+  - {fileID: 5952394858796494878, guid: 1a08f702e881e414bafb0d9d1191a97e, type: 3}
+  - {fileID: 4549079965951174642, guid: 91c20de616dd76346a26f739c6372b5e, type: 3}
+  - {fileID: 7884731057751703599, guid: d8eb0fd384091b548bd4389e7017d5ca, type: 3}
+  - {fileID: 1427133199704694430, guid: afa3fdd33d9b00c4faf2a007e7462f79, type: 3}
+  - {fileID: 4886063470634911554, guid: ff14bc400e100a0438fde48487a7ac75, type: 3}
   isLadder: 0

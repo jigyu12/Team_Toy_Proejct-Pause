@@ -39,6 +39,9 @@ public class PlayerInventory : MonoBehaviour
             {
                 inventoryImage.GetComponent<Image>().sprite = collision.transform.GetComponent<SpriteRenderer>().sprite;
             }
+
+            int newBulletIndex = collision.GetComponent<weapon>().weaponId;
+            GetComponent<PlayerMove>().ChangeBullet(newBulletIndex);
         }
     }
 }
