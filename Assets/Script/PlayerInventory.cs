@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerInventory : MonoBehaviour
 {
     GameObject[] weaponInventory;  // 값을 변경 후, 게임 매니져의 같은 값도 변경해야 함(함수 사용).
-    int playerDamage; // 값을 변경 후, 게임 매니져의 같은 값도 변경해야 함(함수 사용).
+    public int playerDamage; // 값을 변경 후, 게임 매니져의 같은 값도 변경해야 함(함수 사용).
 
     Rigidbody2D rigid;
     Collider2D col;
@@ -34,6 +34,7 @@ public class PlayerInventory : MonoBehaviour
     {
         if (collision.CompareTag("weapon") && Input.GetButtonDown("Interaction"))
         {
+            /*
             GameManager.Instance.SetWeaponInventory(collision);
 
             GameObject inventoryImage = GameObject.Find("ui").transform.Find("inventory").Find("WeaponImage").gameObject;
@@ -42,6 +43,7 @@ public class PlayerInventory : MonoBehaviour
 
             int newBulletIndex = collision.GetComponent<weapon>().weaponId;
             GetComponent<PlayerMove>().ChangeBullet(newBulletIndex);
+            */
         }
     }
 }

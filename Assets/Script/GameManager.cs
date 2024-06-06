@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int playerDamage;
 
     public GameObject player;
-    public int sceneNumberTemp; // 임시 ////////////////////////////////////////////
+    public int sceneNumberNext;
     bool isButtonSet;
 
     private Button playButton;
@@ -57,7 +57,8 @@ public class GameManager : MonoBehaviour
         maxSpeed = 5;
         jumpPower = 2.5f;
         isButtonSet = false;
-        sceneNumberTemp = 1; // 임시 ////////////////////////////////////////////
+        sceneNumberNext = 1;
+        playerDamage = 1;
     }
 
     // 씬이 로드 될때 마다 델리게이트 체인으로 걸어놓은 함수들이 실행된다.
@@ -94,106 +95,187 @@ public class GameManager : MonoBehaviour
         {
             player = GameObject.Find("player");
 
-            if (scene.name == "stage1" && !isButtonSet)
+            if (scene.name == "stage1")
             {
-                isButtonSet = true;
+                isLive = false;
+                maxHealth = 5;
+                health = maxHealth;
+                maxSpeed = 5;
+                jumpPower = 2.5f;
+                sceneNumberNext = 2;
+                playerDamage = 1;
 
-                GameObject leftButton = GameObject.Find("ui").transform.Find("left").gameObject;
+                GameObject uiH5 = GameObject.Find("ui").transform.Find("h5").gameObject;
+                GameObject uiH5_Empty = GameObject.Find("ui").transform.Find("h5_empty").gameObject;
+                uiH5.SetActive(true);
+                uiH5_Empty.SetActive(false);
 
-                List<EventTrigger.Entry> entriesToRemove = new List<EventTrigger.Entry>();
-                foreach (var entry in leftButton.GetComponent<EventTrigger>().triggers)
+
+                GameObject uiH4 = GameObject.Find("ui").transform.Find("h4").gameObject;
+                GameObject uiH4_Empty = GameObject.Find("ui").transform.Find("h4_empty").gameObject;
+                uiH4.SetActive(true);
+                uiH4_Empty.SetActive(false);
+
+
+                GameObject uiH3 = GameObject.Find("ui").transform.Find("h3").gameObject;
+                GameObject uiH3_Empty = GameObject.Find("ui").transform.Find("h3_empty").gameObject;
+                uiH3.SetActive(true);
+                uiH3_Empty.SetActive(false);
+
+
+                GameObject uiH2 = GameObject.Find("ui").transform.Find("h2").gameObject;
+                GameObject uiH2_Empty = GameObject.Find("ui").transform.Find("h2_empty").gameObject;
+                uiH2.SetActive(true);
+                uiH2_Empty.SetActive(false);
+
+                GameObject uiH1 = GameObject.Find("ui").transform.Find("h1").gameObject;
+                GameObject uiH1_Empty = GameObject.Find("ui").transform.Find("h1_empty").gameObject;
+                uiH1.SetActive(true);
+                uiH1_Empty.SetActive(false);
+
+                GameObject.Find("GameClearDetect").transform.Find("GAME_CLEAR_ui").gameObject.SetActive(false);
+                GameObject.Find("GameOverDetect").transform.Find("GAMEOVER_ui").gameObject.SetActive(false);
+
+                if (!isButtonSet)
                 {
-                    //entry.callback.RemoveAllListeners();
-                    entriesToRemove.Add(entry);
+                    isButtonSet = true;
+
+                    // 특정 버튼의 remove할 entry를 안전하게 제거해준다.
+                    /*
+                    GameObject leftButton = GameObject.Find("ui").transform.Find("left").gameObject;
+
+                    List<EventTrigger.Entry> entriesToRemove = new List<EventTrigger.Entry>();
+                    foreach (var entry in leftButton.GetComponent<EventTrigger>().triggers)
+                    {
+                        //entry.callback.RemoveAllListeners();
+                        entriesToRemove.Add(entry);
+                    }
+                    foreach (var entry in entriesToRemove)
+                    {
+                        leftButton.GetComponent<EventTrigger>().triggers.Remove(entry);
+                    }
+                    */
+
+                    GameObject LeftButton = GameObject.Find("ui").transform.Find("left").gameObject;
+
+                    EventTrigger.Entry entry_PointerDown_LeftButton = new EventTrigger.Entry();
+                    entry_PointerDown_LeftButton.eventID = EventTriggerType.PointerDown;
+                    entry_PointerDown_LeftButton.callback.AddListener((data) => player.GetComponent<PlayerMove>().buttonLeftMoveDown((PointerEventData)data));
+                    LeftButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_LeftButton);
+
+                    EventTrigger.Entry entry_PointerUp_LeftButton = new EventTrigger.Entry();
+                    entry_PointerUp_LeftButton.eventID = EventTriggerType.PointerUp;
+                    entry_PointerUp_LeftButton.callback.AddListener((data) => player.GetComponent<PlayerMove>().buttonLeftMoveUp((PointerEventData)data));
+                    LeftButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerUp_LeftButton);
+
+
+                    GameObject RightButton = GameObject.Find("ui").transform.Find("right").gameObject;
+
+                    EventTrigger.Entry entry_PointerDown_RightButton = new EventTrigger.Entry();
+                    entry_PointerDown_RightButton.eventID = EventTriggerType.PointerDown;
+                    entry_PointerDown_RightButton.callback.AddListener((data) => player.GetComponent<PlayerMove>().buttonRightMoveDown((PointerEventData)data));
+                    RightButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_RightButton);
+
+                    EventTrigger.Entry entry_PointerUp_RightButton = new EventTrigger.Entry();
+                    entry_PointerUp_RightButton.eventID = EventTriggerType.PointerUp;
+                    entry_PointerUp_RightButton.callback.AddListener((data) => player.GetComponent<PlayerMove>().buttonRightMoveUp((PointerEventData)data));
+                    RightButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerUp_RightButton);
+
+
+                    GameObject JumpButton = GameObject.Find("ui").transform.Find("jump").gameObject;
+
+                    EventTrigger.Entry entry_PointerDown_JumpButton = new EventTrigger.Entry();
+                    entry_PointerDown_JumpButton.eventID = EventTriggerType.PointerDown;
+                    entry_PointerDown_JumpButton.callback.AddListener((data) => player.GetComponent<PlayerMove>().buttonJump((PointerEventData)data));
+                    JumpButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_JumpButton);
+
+
+                    GameObject soundButton = GameObject.Find("OptionPanelDetect").transform.Find("OptionPanel").transform.Find("Canvas").transform.Find("sound").gameObject;
+
+                    EventTrigger.Entry entry_PointerDown_soundButton = new EventTrigger.Entry();
+                    entry_PointerDown_soundButton.eventID = EventTriggerType.PointerDown;
+                    entry_PointerDown_soundButton.callback.AddListener((data) => SwitchBgmPause());
+                    soundButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_soundButton);
+
+
+                    GameObject soundOffButton = GameObject.Find("OptionPanelDetect").transform.Find("OptionPanel").transform.Find("Canvas").transform.Find("sound off").gameObject;
+
+                    EventTrigger.Entry entry_PointerDown_soundOffButton = new EventTrigger.Entry();
+                    entry_PointerDown_soundOffButton.eventID = EventTriggerType.PointerDown;
+                    entry_PointerDown_soundOffButton.callback.AddListener((data) => SwitchBgmPause());
+                    soundOffButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_soundOffButton);
+
+
+                    GameObject mainButton = GameObject.Find("OptionPanelDetect").transform.Find("OptionPanel").transform.Find("Canvas").transform.Find("main").gameObject;
+
+                    EventTrigger.Entry entry_PointerDown_mainButton = new EventTrigger.Entry();
+                    entry_PointerDown_mainButton.eventID = EventTriggerType.PointerDown;
+                    entry_PointerDown_mainButton.callback.AddListener((data) => GotoMain());
+                    entry_PointerDown_mainButton.callback.AddListener((data) => ResumeGame());
+                    mainButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_mainButton);
+
+
+                    GameObject restartButton = GameObject.Find("OptionPanelDetect").transform.Find("OptionPanel").transform.Find("Canvas").transform.Find("restart").gameObject;
+
+                    EventTrigger.Entry entry_PointerDown_restartButton = new EventTrigger.Entry();
+                    entry_PointerDown_restartButton.eventID = EventTriggerType.PointerDown;
+                    entry_PointerDown_restartButton.callback.AddListener((data) => RestartGame());
+                    restartButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_restartButton);
+
+
+                    GameObject settingButton = GameObject.Find("setting_button").gameObject;
+
+                    EventTrigger.Entry entry_PointerDown_settingButton = new EventTrigger.Entry();
+                    entry_PointerDown_settingButton.eventID = EventTriggerType.PointerDown;
+                    entry_PointerDown_settingButton.callback.AddListener((data) => PauseGame());
+                    settingButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_settingButton);
+
+
+                    GameObject cancelButton = GameObject.Find("OptionPanelDetect").transform.Find("OptionPanel").transform.Find("Canvas").transform.Find("cancel").gameObject;
+
+                    EventTrigger.Entry entry_PointerDown_cancelButton = new EventTrigger.Entry();
+                    entry_PointerDown_cancelButton.eventID = EventTriggerType.PointerDown;
+                    entry_PointerDown_cancelButton.callback.AddListener((data) => ResumeGame());
+                    cancelButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_cancelButton);
+
+
+                    GameObject gameClearMainButton = GameObject.Find("GameClearDetect").transform.Find("GAME_CLEAR_ui").transform.Find("main").gameObject;
+
+                    EventTrigger.Entry entry_PointerDown_gameClearMainButton = new EventTrigger.Entry();
+                    entry_PointerDown_gameClearMainButton.eventID = EventTriggerType.PointerDown;
+                    entry_PointerDown_gameClearMainButton.callback.AddListener((data) => GotoMain());
+                    entry_PointerDown_gameClearMainButton.callback.AddListener((data) => ResumeGame());
+                    gameClearMainButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_gameClearMainButton);
+
+                    GameObject gameOverRestartButton = GameObject.Find("GameOverDetect").transform.Find("GAMEOVER_ui").transform.Find("restart").gameObject;
+
+                    EventTrigger.Entry entry_PointerDown_gameOverRestartButton = new EventTrigger.Entry();
+                    entry_PointerDown_gameOverRestartButton.eventID = EventTriggerType.PointerDown;
+                    entry_PointerDown_gameOverRestartButton.callback.AddListener((data) => RestartGame());
+                    entry_PointerDown_gameOverRestartButton.callback.AddListener((data) => ResumeGame());
+                    gameOverRestartButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_gameOverRestartButton);
+
+                    GameObject clickButton = GameObject.Find("click").gameObject;
+
+                    EventTrigger.Entry entry_PointerDown_clickButton = new EventTrigger.Entry();
+                    entry_PointerDown_clickButton.eventID = EventTriggerType.PointerDown;
+                    entry_PointerDown_clickButton.callback.AddListener((data) => InteractionWithPortal());
+                    entry_PointerDown_clickButton.callback.AddListener((data) => InteractionWithWeapon());
+                    clickButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_clickButton);
+
+
+                    GameObject attackButton = GameObject.Find("attack").gameObject;
+
+                    EventTrigger.Entry entry_PointerDown_attackButton = new EventTrigger.Entry();
+                    entry_PointerDown_attackButton.eventID = EventTriggerType.PointerDown;
+                    entry_PointerDown_attackButton.callback.AddListener((data) => PlayerAttackButtonDown());
+                    attackButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_attackButton);
+
+                    EventTrigger.Entry entry_PointerUp_attackButton = new EventTrigger.Entry();
+                    entry_PointerUp_attackButton.eventID = EventTriggerType.PointerUp;
+                    entry_PointerUp_attackButton.callback.AddListener((data) => PlayerAttackButtonUp());
+                    attackButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerUp_attackButton);
                 }
-                foreach (var entry in entriesToRemove)
-                {
-                    leftButton.GetComponent<EventTrigger>().triggers.Remove(entry);
-                }
-
-
-                GameObject LeftButton = GameObject.Find("ui").transform.Find("left").gameObject;
-                
-                EventTrigger.Entry entry_PointerDown_LeftButton = new EventTrigger.Entry();
-                entry_PointerDown_LeftButton.eventID = EventTriggerType.PointerDown;
-                entry_PointerDown_LeftButton.callback.AddListener((data) => player.GetComponent<PlayerMove>().buttonLeftMoveDown((PointerEventData)data));
-                LeftButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_LeftButton);
-
-                EventTrigger.Entry entry_PointerUp_LeftButton = new EventTrigger.Entry();
-                entry_PointerUp_LeftButton.eventID = EventTriggerType.PointerUp;
-                entry_PointerUp_LeftButton.callback.AddListener((data) => player.GetComponent<PlayerMove>().buttonLeftMoveUp((PointerEventData)data));
-                LeftButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerUp_LeftButton);
-                
-
-                GameObject RightButton = GameObject.Find("ui").transform.Find("right").gameObject;
-
-                EventTrigger.Entry entry_PointerDown_RightButton = new EventTrigger.Entry();
-                entry_PointerDown_RightButton.eventID = EventTriggerType.PointerDown;
-                entry_PointerDown_RightButton.callback.AddListener((data) => player.GetComponent<PlayerMove>().buttonRightMoveDown((PointerEventData)data));
-                RightButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_RightButton);
-
-                EventTrigger.Entry entry_PointerUp_RightButton = new EventTrigger.Entry();
-                entry_PointerUp_RightButton.eventID = EventTriggerType.PointerUp;
-                entry_PointerUp_RightButton.callback.AddListener((data) => player.GetComponent<PlayerMove>().buttonRightMoveUp((PointerEventData)data));
-                RightButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerUp_RightButton);
-
-
-                GameObject JumpButton = GameObject.Find("ui").transform.Find("jump").gameObject;
-
-                EventTrigger.Entry entry_PointerDown_JumpButton = new EventTrigger.Entry();
-                entry_PointerDown_JumpButton.eventID = EventTriggerType.PointerDown;
-                entry_PointerDown_JumpButton.callback.AddListener((data) => player.GetComponent<PlayerMove>().buttonJump((PointerEventData)data));
-                JumpButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_JumpButton);
-
-                
-                GameObject soundButton = GameObject.Find("OptionPanelDetect").transform.Find("OptionPanel").transform.Find("Canvas").transform.Find("sound").gameObject;
-
-                EventTrigger.Entry entry_PointerDown_soundButton = new EventTrigger.Entry();
-                entry_PointerDown_soundButton.eventID = EventTriggerType.PointerDown;
-                entry_PointerDown_soundButton.callback.AddListener((data) => SwitchBgmPause());
-                soundButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_soundButton);
-                
-
-                GameObject soundOffButton = GameObject.Find("OptionPanelDetect").transform.Find("OptionPanel").transform.Find("Canvas").transform.Find("sound off").gameObject;
-
-                EventTrigger.Entry entry_PointerDown_soundOffButton = new EventTrigger.Entry();
-                entry_PointerDown_soundOffButton.eventID = EventTriggerType.PointerDown;
-                entry_PointerDown_soundOffButton.callback.AddListener((data) => SwitchBgmPause());
-                soundOffButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_soundOffButton);
-
-                
-                GameObject mainButton = GameObject.Find("OptionPanelDetect").transform.Find("OptionPanel").transform.Find("Canvas").transform.Find("main").gameObject;
-
-                EventTrigger.Entry entry_PointerDown_mainButton = new EventTrigger.Entry();
-                entry_PointerDown_mainButton.eventID = EventTriggerType.PointerDown;
-                entry_PointerDown_mainButton.callback.AddListener((data) => GotoMain());
-                entry_PointerDown_mainButton.callback.AddListener((data) => ResumeGame());
-                mainButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_mainButton);
-
-
-                GameObject restartButton = GameObject.Find("OptionPanelDetect").transform.Find("OptionPanel").transform.Find("Canvas").transform.Find("restart").gameObject;
-
-                EventTrigger.Entry entry_PointerDown_restartButton = new EventTrigger.Entry();
-                entry_PointerDown_restartButton.eventID = EventTriggerType.PointerDown;
-                entry_PointerDown_restartButton.callback.AddListener((data) => RestartGame());
-                restartButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_restartButton);
-
-
-                GameObject settingButton = GameObject.Find("setting_button").gameObject;
-
-                EventTrigger.Entry entry_PointerDown_settingButton = new EventTrigger.Entry();
-                entry_PointerDown_settingButton.eventID = EventTriggerType.PointerDown;
-                entry_PointerDown_settingButton.callback.AddListener((data) => PauseGame());
-                settingButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_settingButton);
-
-
-                GameObject cancelButton = GameObject.Find("OptionPanelDetect").transform.Find("OptionPanel").transform.Find("Canvas").transform.Find("cancel").gameObject;
-
-                EventTrigger.Entry entry_PointerDown_cancelButton = new EventTrigger.Entry();
-                entry_PointerDown_cancelButton.eventID = EventTriggerType.PointerDown;
-                entry_PointerDown_cancelButton.callback.AddListener((data) => ResumeGame());
-                cancelButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_cancelButton);
-
             }
         }
     }
@@ -206,9 +288,9 @@ public class GameManager : MonoBehaviour
         if (Input.GetButtonDown("Fire3"))
         {
             
-            sceneNumberTemp++;
-            LoadScene(sceneNumberTemp);
             
+            LoadScene(sceneNumberNext);
+            sceneNumberNext++;
         }
 
     }
@@ -242,6 +324,20 @@ public class GameManager : MonoBehaviour
     {
         Application.Quit();
         Debug.Log("Quit");
+    }
+
+    public void GameClear()
+    {
+        PauseGame();
+        GameObject gameClearUI = GameObject.Find("GameClearDetect").transform.Find("GAME_CLEAR_ui").gameObject;
+        gameClearUI.SetActive(true);
+    }
+    
+    public void GameOver()
+    {
+        PauseGame();
+        GameObject gameOverUI = GameObject.Find("GameOverDetect").transform.Find("GAMEOVER_ui").gameObject;
+        gameOverUI.SetActive(true);
     }
 
     public void LoadScene(int SceneBuildIndex)
@@ -366,5 +462,41 @@ public class GameManager : MonoBehaviour
             return;
 
         health += change;
+    }
+
+    public void InteractionWithWeapon()
+    {
+        if (!player.GetComponent<PlayerMove>().isWeapon)
+            return;
+
+        Collider2D collision = player.GetComponent<PlayerMove>().weaponCollision;
+
+        GameManager.Instance.SetWeaponInventory(collision);
+
+        GameObject inventoryImage = GameObject.Find("ui").transform.Find("inventory").Find("WeaponImage").gameObject;
+        inventoryImage.GetComponent<Image>().sprite = collision.transform.GetComponent<SpriteRenderer>().sprite;
+        inventoryImage.SetActive(true);
+
+        int newBulletIndex = collision.GetComponent<weapon>().weaponId;
+        player.GetComponent<PlayerMove>().ChangeBullet(newBulletIndex);
+    }
+
+    public void InteractionWithPortal()
+    {
+        if (!player.GetComponent<PlayerMove>().isPortal)
+            return;
+
+        LoadScene(sceneNumberNext);
+        sceneNumberNext++;
+    }
+
+    public void PlayerAttackButtonDown()
+    {
+        player.GetComponent<PlayerMove>().anim.SetBool("isShoot", true);
+    }
+
+    public void PlayerAttackButtonUp()
+    {
+        player.GetComponent<PlayerMove>().anim.SetBool("isShoot", false);
     }
 }

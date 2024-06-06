@@ -13,10 +13,15 @@ public class PlayerMove : MonoBehaviour
 
     bool isHurt;
 
-    
+    public bool isWeapon;
+    public Collider2D weaponCollision;
+
+    public bool isPortal;
+
+
     Rigidbody2D rigid;
     SpriteRenderer spriteRenderer;
-    Animator anim;
+    public Animator anim;
     CapsuleCollider2D ladderCollider; // 사다리 콜라이더를 저장할 변수
 
     public Transform genPoint;
@@ -33,6 +38,9 @@ public class PlayerMove : MonoBehaviour
         isRightMoveClick = false;
 
         isHurt = false;
+
+        isWeapon = false;
+        isPortal = false;
 
         if (GameObject.FindGameObjectWithTag("ladder"))
         {
@@ -131,11 +139,11 @@ public class PlayerMove : MonoBehaviour
         // Move By Button Control
         if(isLeftMoveClick &&  !isRightMoveClick)
         {
-            rigid.AddForce(Vector2.right, ForceMode2D.Impulse);
+            rigid.AddForce(-Vector2.right, ForceMode2D.Impulse);
         }
         else if(!isLeftMoveClick && isRightMoveClick)
         {
-            rigid.AddForce(-Vector2.right, ForceMode2D.Impulse);
+            rigid.AddForce(Vector2.right, ForceMode2D.Impulse);
         }
 
         if (rigid.velocity.x > maxSpeed)
@@ -189,6 +197,16 @@ public class PlayerMove : MonoBehaviour
         {
             StartCoroutine(PlayerHurt());
         }
+
+        if (collision.tag == "weapon")
+        {
+            isWeapon = true;
+            weaponCollision = collision;
+        }
+        if (collision.tag == "portal")
+        {
+            isPortal = true;
+        }
     }
 
     IEnumerator PlayerHurt()
@@ -196,7 +214,45 @@ public class PlayerMove : MonoBehaviour
         isHurt = true;
         GameManager.Instance.SetHp(-1);
         anim.SetTrigger("isHurt");
-        
+
+        if(GameManager.Instance.GetHp() == 4) 
+        {
+            GameObject uiH5 = GameObject.Find("ui").transform.Find("h5").gameObject;
+            GameObject uiH5_Empty = GameObject.Find("ui").transform.Find("h5_empty").gameObject;
+            uiH5.SetActive(false);
+            uiH5_Empty.SetActive(true);
+        }
+        else if (GameManager.Instance.GetHp() == 3)
+        {
+            GameObject uiH4 = GameObject.Find("ui").transform.Find("h4").gameObject;
+            GameObject uiH4_Empty = GameObject.Find("ui").transform.Find("h4_empty").gameObject;
+            uiH4.SetActive(false);
+            uiH4_Empty.SetActive(true);
+        }
+        else if (GameManager.Instance.GetHp() == 2)
+        {
+            GameObject uiH3 = GameObject.Find("ui").transform.Find("h3").gameObject;
+            GameObject uiH3_Empty = GameObject.Find("ui").transform.Find("h3_empty").gameObject;
+            uiH3.SetActive(false);
+            uiH3_Empty.SetActive(true);
+        }
+        else if (GameManager.Instance.GetHp() == 1)
+        {
+            GameObject uiH2 = GameObject.Find("ui").transform.Find("h2").gameObject;
+            GameObject uiH2_Empty = GameObject.Find("ui").transform.Find("h2_empty").gameObject;
+            uiH2.SetActive(false);
+            uiH2_Empty.SetActive(true);
+        }
+        else if (GameManager.Instance.GetHp() == 0)
+        {
+            GameObject uiH1 = GameObject.Find("ui").transform.Find("h1").gameObject;
+            GameObject uiH1_Empty = GameObject.Find("ui").transform.Find("h1_empty").gameObject;
+            uiH1.SetActive(false);
+            uiH1_Empty.SetActive(true);
+
+            GameManager.Instance.GameOver();
+        }
+
         yield return new WaitForSeconds(0.5f);
 
         isHurt = false;
@@ -208,6 +264,16 @@ public class PlayerMove : MonoBehaviour
         {
             isLadder = false;
             anim.SetBool("isLaddering", false);
+        }
+
+        if (collision.tag == "weapon")
+        {
+            isWeapon = false;
+            weaponCollision = null;
+        }
+        if (collision.tag == "portal")
+        {
+            isPortal = false;
         }
     }
 

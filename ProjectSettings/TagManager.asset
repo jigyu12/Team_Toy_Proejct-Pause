@@ -13,6 +13,8 @@ TagManager:
   - MonsterAttack
   - MonsterProjectile
   - PlayerProjectile
+  - Projectile
+  - portal
   layers:
   - Default
   - TransparentFX

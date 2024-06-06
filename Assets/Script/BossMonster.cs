@@ -141,6 +141,7 @@ public class BossMonster : Monster
         yield return new WaitForSeconds(1f);
 
         Destroy(gameObject);
+        GameManager.Instance.GameClear();
     }
 
     IEnumerator Attack()
