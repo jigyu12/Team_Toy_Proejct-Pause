@@ -387,6 +387,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d026e60196a9e9e43b9fdfca182b9936, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerDamage: 0
+  defaultWeaponImage: {fileID: 21300000, guid: e2d24199b2f684a489e4e83413110b74, type: 3}
 --- !u!114 &182614913764245520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,6 +401,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 038c37e834c810d4ba244a47ba46280e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isWeapon: 0
+  weaponCollision: {fileID: 0}
+  isPortal: 0
+  anim: {fileID: 0}
   genPoint: {fileID: 9143355216949301991}
   Bullet:
   - {fileID: 5952394858796494878, guid: 1a08f702e881e414bafb0d9d1191a97e, type: 3}
