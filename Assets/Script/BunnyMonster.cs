@@ -89,24 +89,4 @@ public class BunnyMonster : Monster
             currentState = State.Hit;
         }
     }
-
-    public override void Move()
-    {
-        base.Move();
-
-        GroundCheck();
-
-        if (isGround)
-        {
-            rb.velocity = new Vector2(transform.localScale.x * moveSpeed, (jumpPower / 2.0f));
-
-            Vector2 downVec = new Vector2(transform.position.x + moveDir, transform.position.y);
-            Debug.DrawRay(downVec, Vector3.down, new Color(0, 1, 0));
-            RaycastHit2D down = Physics2D.Raycast(downVec, Vector3.down, 1, LayerMask.GetMask("Platform"));
-
-            if (down.collider == null)
-                MonsterFlip();
-        }
-
-    }
 }
