@@ -105,6 +105,9 @@ public class GameManager : MonoBehaviour
                 sceneNumberNext = 2;
                 playerDamage = 1;
 
+                int savedBulletIndex = PlayerPrefs.GetInt("PlayerBulletIndex", 0);
+                player.GetComponent<PlayerMove>().ChangeBullet(savedBulletIndex);
+
                 GameObject uiH5 = GameObject.Find("ui").transform.Find("h5").gameObject;
                 GameObject uiH5_Empty = GameObject.Find("ui").transform.Find("h5_empty").gameObject;
                 uiH5.SetActive(true);

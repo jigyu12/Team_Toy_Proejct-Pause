@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float lifetime = 2f;
+    public float lifetime;
     void Start()
     {
         Destroy(gameObject, lifetime);
     }
 
+
+
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Destroy(gameObject);    
+        if (collision.gameObject.tag != "PlayerProjectile")
+        {
+            Destroy(gameObject);
+        }
     }
 }

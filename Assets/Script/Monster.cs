@@ -100,6 +100,11 @@ public class Monster : MonoBehaviour
 
     protected bool IsPlayerDir()
     {
+        if (GameManager.Instance.player == null)
+        {
+            return false; // player가 null이면 false를 반환합니다.
+        }
+        
         if (transform.position.x > GameManager.Instance.player.transform.position.x ? MonsterDirLeft : !MonsterDirLeft)
         {
             return true;
@@ -109,7 +114,7 @@ public class Monster : MonoBehaviour
 
     protected void GroundCheck()
     {
-        if (Physics2D.BoxCast(capsuleCollider.bounds.center, capsuleCollider.size, 0, Vector2.down, 0.05f, layerMask))
+        if (Physics2D.BoxCast(capsuleCollider.bounds.center, capsuleCollider.size * transform.localScale.y, 0, Vector2.down, 0.05f, layerMask))
         {
             isGround = true;
         }
@@ -118,6 +123,7 @@ public class Monster : MonoBehaviour
             isGround = false;
         }
     }
+
 
     public virtual void TakeDamage(int dam)
     {
@@ -145,27 +151,25 @@ public class Monster : MonoBehaviour
         }
     }
 
-    //protected void OnTriggerEnter2D(Collider2D collision) // 플레이어 투사체에 피격
-    //{
-    //    if (collision.transform.CompareTag("PlayerProjectile"))
-    //    {
-    //        TakeDamage(1);
-    //    }
-    //}
 
     public virtual void Move()
     {
+        if (GameManager.Instance.player == null)
+        {
+            return;
+        }
+
         rb.velocity = new Vector2(transform.localScale.x * moveSpeed, rb.velocity.y);
 
         if (MonsterDirLeft == true)
-            moveDir = -0.5f;
+            moveDir = -0.3f;
         else
-            moveDir = 0.5f;
+            moveDir = 0.3f;
 
 
 
         Vector2 currentPos = transform.position; // 현재 위치 기준
-        Vector2 frontVec = new Vector2(currentPos.x + transform.localScale.x, currentPos.y); // 앞 방향
+        Vector2 frontVec = new Vector2(currentPos.x + transform.localScale.x, currentPos.y - 0.2f); // 앞 방향
         Vector2 topVec = new Vector2(currentPos.x + transform.localScale.x, currentPos.y + 0.7f); // 위 방향
 
 
@@ -186,13 +190,14 @@ public class Monster : MonoBehaviour
         GroundCheck();
         if (top.collider == null && front.collider == null && isGround)
         {
-            Vector2 downVec = new Vector2(transform.position.x + moveDir, transform.position.y);
+            Vector2 downVec = new Vector2(transform.position.x + moveDir, transform.position.y - 0.3f);
             Debug.DrawRay(downVec, Vector3.down, new Color(0, 1, 0));
             RaycastHit2D down = Physics2D.Raycast(downVec, Vector3.down, 1, LayerMask.GetMask("Platform"));
 
             if (down.collider == null)
                 MonsterFlip();
         }
+
     }
 }
 

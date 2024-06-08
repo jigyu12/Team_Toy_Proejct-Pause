@@ -89,13 +89,7 @@ public class OpossumMonster : Monster
             currentState = State.Hit;
         }
     }
-    protected void OnTriggerEnter2D(Collider2D collision) // 플레이어와 부딪히면 방향 전환
-    {
-        if (collision.transform.CompareTag("PlayerHitBox"))
-        {
-            MonsterFlip();
-        }
-    }
+
     public override void Move()
     {
         rb.velocity = new Vector2(transform.localScale.x * moveSpeed, rb.velocity.y);
@@ -106,7 +100,7 @@ public class OpossumMonster : Monster
             moveDir = 0.5f;
 
         Vector2 currentPos = transform.position; // 현재 위치 기준
-        Vector2 frontVec = new Vector2(currentPos.x + transform.localScale.x, currentPos.y); // 앞 방향
+        Vector2 frontVec = new Vector2(currentPos.x + transform.localScale.x, currentPos.y - 0.3f); // 앞 방향
         Vector2 downVec = new Vector2(transform.position.x + moveDir, transform.position.y);
 
         Debug.DrawRay(frontVec, MonsterDirLeft ? Vector3.right : Vector3.left, new Color(0, 1, 0));

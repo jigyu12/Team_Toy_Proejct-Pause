@@ -116,10 +116,10 @@ public class BossMonster : Monster
             MonsterFlip();
 
             if (MonsterDirLeft)
-                transform.Translate(-3, 0, 0);
+                transform.Translate(-6, 0, 0);
 
             else
-                transform.Translate(3, 0, 0);
+                transform.Translate(6, 0, 0);
         }
 
     }
@@ -221,7 +221,7 @@ public class BossMonster : Monster
         rb.velocity = new Vector2(transform.localScale.x * moveSpeed, rb.velocity.y);
 
         Vector2 currentPos = transform.position; // 현재 위치 기준
-        Vector2 frontVec = new Vector2(currentPos.x + transform.localScale.x, currentPos.y + 2f); // 앞 방향
+        Vector2 frontVec = new Vector2(currentPos.x + transform.localScale.x, currentPos.y - 3f); // 앞 방향
 
 
         Debug.DrawRay(frontVec, MonsterDirLeft ? Vector3.right : Vector3.left, new Color(0, 1, 0));
@@ -233,10 +233,10 @@ public class BossMonster : Monster
             MonsterFlip();
 
             if (MonsterDirLeft)
-                transform.Translate(-3, 0, 0);
+                transform.Translate(-6, 0, 0);
 
             else
-                transform.Translate(3, 0, 0);
+                transform.Translate(6, 0, 0);
         }
     }
 

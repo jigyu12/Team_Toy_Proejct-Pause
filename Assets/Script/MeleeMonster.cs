@@ -89,14 +89,4 @@ public class MeleeMonster : Monster
         }
     }
 
-
-
-    protected void OnTriggerEnter2D(Collider2D collision) // 플레이어와 부딪히면 방향 전환
-    {
-        if (collision.transform.CompareTag("PlayerHitBox"))
-        {
-            MonsterFlip();
-        }
-    }
-
 }

@@ -83,6 +83,11 @@ public class FlyEye : Monster
 
     public override void Move()
     {
+        if (GameManager.Instance.player == null)
+        {
+            return;
+        }
+
         if (IsPlayerDir() && Vector2.Distance(transform.position, GameManager.Instance.player.transform.position) < 15f)
         {
             Vector2 direction = (GameManager.Instance.player.transform.position - transform.position).normalized;

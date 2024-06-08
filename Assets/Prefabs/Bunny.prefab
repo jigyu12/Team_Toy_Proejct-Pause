@@ -30,8 +30,8 @@ Transform:
   m_GameObject: {fileID: 8085497613596079106}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 83.084, y: -1.466, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 83.516, y: -0.982, z: 0}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4376884158824627538}
@@ -186,7 +186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHp: 2
   moveSpeed: 2
-  jumpPower: 3
+  jumpPower: 2
   atkCoolTime: 3
   atkCoolTimeCalc: 3
   isHit: 0

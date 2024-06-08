@@ -59,6 +59,9 @@ public class PlayerMove : MonoBehaviour
     {
         maxSpeed = GameManager.Instance.GetMaxSpeed();
         jumpPower = GameManager.Instance.GetJumpPower();
+
+        int savedBulletIndex = PlayerPrefs.GetInt("PlayerBulletIndex", 0);
+        ChangeBullet(savedBulletIndex);
     }
 
     private void Update()
@@ -350,6 +353,9 @@ public class PlayerMove : MonoBehaviour
         if (bulletIndex >= 0 && bulletIndex < Bullet.Length)
         {
             currentBulletIndex = bulletIndex;
+
+            PlayerPrefs.SetInt("PlayerBulletIndex", currentBulletIndex);
+            PlayerPrefs.Save();
         }
     }
 }
