@@ -253,6 +253,19 @@ public class PlayerMove : MonoBehaviour
             uiH1.SetActive(false);
             uiH1_Empty.SetActive(true);
 
+            if(!spriteRenderer.flipX)
+            {
+                transform.rotation = Quaternion.Euler(0,0,90);
+                Camera.main.transform.rotation = Quaternion.Euler(0, 0, 360);
+                transform.Translate(0,-0.2f, 0);
+            }
+            else
+            {
+                transform.rotation = Quaternion.Euler(0, 0, -90);
+                Camera.main.transform.rotation = Quaternion.Euler(0, 0, -360);
+                transform.Translate(0, -0.2f, 0);
+            }
+
             GameManager.Instance.GameOver();
         }
 
