@@ -47385,6 +47385,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: player
       objectReference: {fileID: 0}
+    - target: {fileID: 7828532406092106727, guid: 2051b531773542a4db14361d24b5c894, type: 3}
+      propertyPath: m_Size.x
+      value: 0.1419797
+      objectReference: {fileID: 0}
+    - target: {fileID: 7828532406092106727, guid: 2051b531773542a4db14361d24b5c894, type: 3}
+      propertyPath: m_Size.y
+      value: 0.29760417
+      objectReference: {fileID: 0}
+    - target: {fileID: 7828532406092106727, guid: 2051b531773542a4db14361d24b5c894, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.00888896
+      objectReference: {fileID: 0}
+    - target: {fileID: 7828532406092106727, guid: 2051b531773542a4db14361d24b5c894, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.038896844
+      objectReference: {fileID: 0}
     - target: {fileID: 8528871412494316244, guid: 2051b531773542a4db14361d24b5c894, type: 3}
       propertyPath: orthographic size
       value: 8
@@ -47725,7 +47741,7 @@ MonoBehaviour:
   weaponInventory: []
   playerDamage: 0
   player: {fileID: 0}
-  sceneNumberTemp: 0
+  sceneNumberNext: 0
 --- !u!4 &757525315
 Transform:
   m_ObjectHideFlags: 0
