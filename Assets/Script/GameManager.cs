@@ -19,10 +19,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float jumpPower;
     [SerializeField] private GameObject[] weaponInventory;
     [SerializeField] private int playerDamage;
+    [SerializeField] private Sprite defaultWeaponImage; // 기본 무기 이미지
 
     public GameObject player;
     public int sceneNumberNext;
     bool isButtonSet;
+    public bool isbgmPlayingSave;
 
     private Button playButton;
     private Button volumeButton;
@@ -46,6 +48,7 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+        isbgmPlayingSave = true;
         Init();
     }
 
@@ -74,7 +77,51 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        
+        if(scene.name == "MainTitle")
+        {
+            if(isbgmPlayingSave)
+            {
+                volumeButton = GameObject.Find("Main").transform.Find("Volume").GetComponent<Button>();
+                volumeButton.gameObject.SetActive(true);
+
+                volumeOffButton = GameObject.Find("Main").transform.Find("Volume-OFF").GetComponent<Button>();
+                volumeOffButton.gameObject.SetActive(false);
+            }
+            else
+            {
+                AudioManager.Instance.PauseBgm(true);
+
+                volumeButton = GameObject.Find("Main").transform.Find("Volume").transform.GetComponent<Button>();
+                volumeButton.gameObject.SetActive(false);
+
+                volumeOffButton = GameObject.Find("Main").transform.Find("Volume-OFF").GetComponent<Button>();
+                volumeOffButton.gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            if (isbgmPlayingSave)
+            {
+                GameObject soundButton = GameObject.Find("OptionPanelDetect").transform.Find("OptionPanel").transform.Find("Canvas").transform.Find("sound").gameObject;
+                soundButton.SetActive(true);
+
+
+                GameObject soundOffButton = GameObject.Find("OptionPanelDetect").transform.Find("OptionPanel").transform.Find("Canvas").transform.Find("sound off").gameObject;
+                soundOffButton.SetActive(false);
+            }
+            else
+            {
+                AudioManager.Instance.PauseBgm(true);
+
+                GameObject soundButton = GameObject.Find("OptionPanelDetect").transform.Find("OptionPanel").transform.Find("Canvas").transform.Find("sound").gameObject;
+                soundButton.SetActive(false);
+
+
+                GameObject soundOffButton = GameObject.Find("OptionPanelDetect").transform.Find("OptionPanel").transform.Find("Canvas").transform.Find("sound off").gameObject;
+                soundOffButton.SetActive(true);
+            }
+        }
+
         if (scene.name == "MainTitle")
         {
             Init();
@@ -82,7 +129,7 @@ public class GameManager : MonoBehaviour
             playButton = GameObject.Find("Play").GetComponent<Button>();
             playButton.onClick.AddListener(RestartGame);
 
-            volumeButton = GameObject.Find("Volume").GetComponent<Button>();
+            volumeButton = GameObject.Find("Main").transform.Find("Volume").GetComponent<Button>();
             volumeButton.onClick.AddListener(() => SwitchBgmPause(AudioManager.Instance.IsBgmPlaying));
 
             volumeOffButton = GameObject.Find("Main").transform.Find("Volume-OFF").GetComponent<Button>();
@@ -95,6 +142,14 @@ public class GameManager : MonoBehaviour
         {
             player = GameObject.Find("player");
 
+            if(transform.childCount > 0)
+            {
+                GameObject inventoryImage = GameObject.Find("ui").transform.Find("inventory").Find("WeaponImage").gameObject;
+                Debug.Log(transform.GetChild(0).GetComponent<SpriteRenderer>().sprite.name);
+                inventoryImage.GetComponent<Image>().sprite = transform.GetChild(0).GetComponent<SpriteRenderer>().sprite;
+                inventoryImage.SetActive(true);
+            }
+            
             if (scene.name == "stage1")
             {
                 isLive = false;
@@ -104,6 +159,15 @@ public class GameManager : MonoBehaviour
                 jumpPower = 9f;
                 sceneNumberNext = 2;
                 playerDamage = 1;
+                if (transform.childCount > 0)
+                {
+                    Destroy(transform.GetChild(0).gameObject);
+                }
+
+                // 초기 설정 시 기본 무기 이미지를 설정
+                GameObject inventoryImage = GameObject.Find("ui").transform.Find("inventory").Find("WeaponImage").gameObject;
+                inventoryImage.GetComponent<Image>().sprite = defaultWeaponImage;
+                inventoryImage.SetActive(true);
 
                 int savedBulletIndex = PlayerPrefs.GetInt("PlayerBulletIndex", 0);
                 player.GetComponent<PlayerMove>().ChangeBullet(savedBulletIndex);
@@ -222,7 +286,7 @@ public class GameManager : MonoBehaviour
 
                     EventTrigger.Entry entry_PointerDown_restartButton = new EventTrigger.Entry();
                     entry_PointerDown_restartButton.eventID = EventTriggerType.PointerDown;
-                    entry_PointerDown_restartButton.callback.AddListener((data) => RestartGame());
+                    entry_PointerDown_restartButton.callback.AddListener((data) => RestartGameUISetting());
                     restartButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerDown_restartButton);
 
 
@@ -322,6 +386,13 @@ public class GameManager : MonoBehaviour
         LoadScene(1); // 제일 첫 스테이지의 빌드 번호를 넣으면 된다.
     }
 
+    public void RestartGameUISetting()
+    {
+        LoadScene(1); // 제일 첫 스테이지의 빌드 번호를 넣으면 된다.
+        Time.timeScale = 1;
+        GameObject.Find("OptionPanelDetect").transform.Find("OptionPanel").gameObject.SetActive(false);
+    }
+
     public void GotoMain()
     {
         LoadScene(0);
@@ -357,10 +428,12 @@ public class GameManager : MonoBehaviour
     {
         if(bgmIsPlaying)
         {
+            isbgmPlayingSave = false;
             AudioManager.Instance.PauseBgm(true);
         }
         else
         {
+            isbgmPlayingSave = true;
             AudioManager.Instance.PauseBgm(false);
         }
     }
@@ -369,10 +442,12 @@ public class GameManager : MonoBehaviour
     {
         if (AudioManager.Instance.IsBgmPlaying)
         {
+            isbgmPlayingSave = false;
             AudioManager.Instance.PauseBgm(true);
         }
         else
         {
+            isbgmPlayingSave = true;
             AudioManager.Instance.PauseBgm(false);
         }
     }

@@ -15,6 +15,7 @@ TagManager:
   - PlayerProjectile
   - Projectile
   - portal
+  - FallDetectWall
   layers:
   - Default
   - TransparentFX

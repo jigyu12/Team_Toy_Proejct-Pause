@@ -79,7 +79,14 @@ public class AudioManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        bgmPlayer.Play();
+        if(GameManager.Instance.isbgmPlayingSave)
+        {
+            bgmPlayer.Play();
+        }
+        else
+        {
+            bgmPlayer.Pause();
+        }
     }
 
     public static AudioManager Instance

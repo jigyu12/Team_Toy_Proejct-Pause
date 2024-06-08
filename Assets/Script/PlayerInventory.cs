@@ -12,7 +12,7 @@ public class PlayerInventory : MonoBehaviour
     Collider2D col;
 
 
-    [SerializeField] private Sprite defaultWeaponImage; // 기본 무기 이미지
+    //[SerializeField] private Sprite defaultWeaponImage; // 기본 무기 이미지
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -23,11 +23,12 @@ public class PlayerInventory : MonoBehaviour
     {
         weaponInventory = GameManager.Instance.GetWeaponInventory();
         playerDamage = GameManager.Instance.GetPlayerDamage();
-
+        /*
         // 초기 설정 시 기본 무기 이미지를 설정
         GameObject inventoryImage = GameObject.Find("ui").transform.Find("inventory").Find("WeaponImage").gameObject;
         inventoryImage.GetComponent<Image>().sprite = defaultWeaponImage;
         inventoryImage.SetActive(true);
+        */
     }
 
     void OnTriggerStay2D(Collider2D collision)

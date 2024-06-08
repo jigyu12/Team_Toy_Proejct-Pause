@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -210,6 +211,28 @@ public class PlayerMove : MonoBehaviour
         {
             isPortal = true;
         }
+        if (collision.tag == "FallDetectWall")
+        {
+            Scene scene = SceneManager.GetActiveScene();
+            if (scene.name == "stage1")
+            {
+                transform.position = new Vector3(31.81f, 20.67f, 0.4607419f);
+            }
+            else if (scene.name == "stage2")
+            {
+                transform.position = new Vector3(94.49f, -57.16f, 0.4607419f);
+            }
+            else if (scene.name == "stage3")
+            {
+                transform.position = new Vector3(12.80354f, -67.41419f, 0.4607419f);
+            }
+            else if(scene.name == "stage4")
+            {
+                transform.position = new Vector3(-23.51f, -41.22f, 0f);
+            }
+
+            StartCoroutine(PlayerHurt());
+        }
     }
 
     IEnumerator PlayerHurt()
@@ -255,15 +278,16 @@ public class PlayerMove : MonoBehaviour
 
             if(!spriteRenderer.flipX)
             {
+                transform.Translate(0, -0.5f, 0);
                 transform.rotation = Quaternion.Euler(0,0,90);
                 Camera.main.transform.rotation = Quaternion.Euler(0, 0, 360);
-                transform.Translate(0,-0.2f, 0);
+                
             }
             else
             {
+                transform.Translate(0, -0.5f, 0);
                 transform.rotation = Quaternion.Euler(0, 0, -90);
                 Camera.main.transform.rotation = Quaternion.Euler(0, 0, -360);
-                transform.Translate(0, -0.2f, 0);
             }
 
             GameManager.Instance.GameOver();
