@@ -105,8 +105,20 @@ public class GameManager : MonoBehaviour
                 sceneNumberNext = 2;
                 playerDamage = 1;
 
-                int savedBulletIndex = PlayerPrefs.GetInt("PlayerBulletIndex", 0);
-                player.GetComponent<PlayerMove>().ChangeBullet(savedBulletIndex);
+                if (scene.buildIndex == 1)
+                {
+                    int defaultBulletIndex = 0;
+                    PlayerPrefs.SetInt("PlayerBulletIndex", defaultBulletIndex);
+                    PlayerPrefs.Save();
+                    player.GetComponent<PlayerMove>().ChangeBullet(defaultBulletIndex);
+                }
+                else
+                {
+                    int savedBulletIndex = PlayerPrefs.GetInt("PlayerBulletIndex", 0);
+                    player.GetComponent<PlayerMove>().ChangeBullet(savedBulletIndex);
+                }
+
+
 
                 GameObject uiH5 = GameObject.Find("ui").transform.Find("h5").gameObject;
                 GameObject uiH5_Empty = GameObject.Find("ui").transform.Find("h5_empty").gameObject;
