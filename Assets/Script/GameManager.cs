@@ -280,6 +280,10 @@ public class GameManager : MonoBehaviour
                     attackButton.GetComponent<EventTrigger>().triggers.Add(entry_PointerUp_attackButton);
                 }
             }
+            if(scene.name == "stage3")
+            {
+                player.GetComponent<PlayerMove>().anim.SetBool("isJumping", true);
+            }
         }
     }
 
