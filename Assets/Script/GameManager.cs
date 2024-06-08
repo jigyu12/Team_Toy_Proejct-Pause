@@ -145,7 +145,6 @@ public class GameManager : MonoBehaviour
             if(transform.childCount > 0)
             {
                 GameObject inventoryImage = GameObject.Find("ui").transform.Find("inventory").Find("WeaponImage").gameObject;
-                Debug.Log(transform.GetChild(0).GetComponent<SpriteRenderer>().sprite.name);
                 inventoryImage.GetComponent<Image>().sprite = transform.GetChild(0).GetComponent<SpriteRenderer>().sprite;
                 inventoryImage.SetActive(true);
             }
