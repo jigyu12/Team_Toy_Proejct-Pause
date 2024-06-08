@@ -601,6 +601,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: player
       objectReference: {fileID: 0}
+    - target: {fileID: 7828532406092106727, guid: 2051b531773542a4db14361d24b5c894, type: 3}
+      propertyPath: m_Size.x
+      value: 0.14216614
+      objectReference: {fileID: 0}
+    - target: {fileID: 7828532406092106727, guid: 2051b531773542a4db14361d24b5c894, type: 3}
+      propertyPath: m_Size.y
+      value: 0.29604205
+      objectReference: {fileID: 0}
+    - target: {fileID: 7828532406092106727, guid: 2051b531773542a4db14361d24b5c894, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.009710312
+      objectReference: {fileID: 0}
+    - target: {fileID: 7828532406092106727, guid: 2051b531773542a4db14361d24b5c894, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.039677903
+      objectReference: {fileID: 0}
     - target: {fileID: 9104592061756357778, guid: 2051b531773542a4db14361d24b5c894, type: 3}
       propertyPath: m_LocalPosition.x
       value: 93.12
@@ -13074,7 +13090,7 @@ MonoBehaviour:
   weaponInventory: []
   playerDamage: 0
   player: {fileID: 400258212}
-  sceneNumberTemp: 0
+  sceneNumberNext: 0
 --- !u!1 &1877611025
 GameObject:
   m_ObjectHideFlags: 0
