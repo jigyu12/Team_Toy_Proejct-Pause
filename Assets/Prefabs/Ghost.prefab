@@ -180,6 +180,7 @@ GameObject:
   - component: {fileID: -8089708404412322690}
   - component: {fileID: 4277030826582567406}
   - component: {fileID: 808854295542171708}
+  - component: {fileID: 3428849769026338316}
   m_Layer: 10
   m_Name: Ghost
   m_TagString: Monster
@@ -313,10 +314,10 @@ CapsuleCollider2D:
     serializedVersion: 2
     m_Bits: 4294967295
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
-  m_Offset: {x: -0.028632164, y: -0.09530622}
-  m_Size: {x: 0.1599369, y: 0.66819584}
+  m_Offset: {x: -0.016558286, y: -0.095306225}
+  m_Size: {x: 0.18408468, y: 0.6681958}
   m_Direction: 0
 --- !u!95 &4277030826582567406
 Animator:
@@ -353,7 +354,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHp: 2
   moveSpeed: 2
-  jumpPower: 10
+  jumpPower: 3.7
   atkCoolTime: 3
   atkCoolTimeCalc: 3
   isHit: 0
@@ -369,3 +370,22 @@ MonoBehaviour:
   currentState: 0
   genPoint: {fileID: 6412890278883938297}
   Bullet: {fileID: 3445302005374831882, guid: 43a3ef3bad4e75848887b48c1d1d5ee3, type: 3}
+--- !u!251 &3428849769026338316
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7189655648529749610}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 0
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
 
-public class BossMonster : Monster
+public class Boss : Monster
 {
     public enum State
     {

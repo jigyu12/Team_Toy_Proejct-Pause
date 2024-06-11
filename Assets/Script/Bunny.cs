@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class MeleeMonster : Monster
+public class Bunny : Monster
 {
     public enum State
     {
@@ -21,6 +19,7 @@ public class MeleeMonster : Monster
 
         atkCoolTime = 3f;
         atkCoolTimeCalc = atkCoolTime;
+
 
         StartCoroutine(FSM());
     }
@@ -68,6 +67,8 @@ public class MeleeMonster : Monster
     {
         MyAnimSetTrigger("Death");
 
+        capsuleCollider.enabled = false;
+
         // Death 애니메이션 재생 시간만큼 대기
         yield return new WaitForSeconds(2f);
 
@@ -88,5 +89,4 @@ public class MeleeMonster : Monster
             currentState = State.Hit;
         }
     }
-
 }

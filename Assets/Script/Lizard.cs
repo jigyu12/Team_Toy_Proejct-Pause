@@ -1,18 +1,18 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class RangedMonster : Monster
+public class Lizard : Monster
 {
     public enum State
     {
-        Idle,
         Run,
         Attack,
         Hit,
         Death,
     };
 
-    public State currentState = State.Idle;
+    public State currentState = State.Run;
 
     public Transform genPoint;
     public GameObject Bullet;
@@ -22,6 +22,7 @@ public class RangedMonster : Monster
     {
         base.Awake();
 
+        atkCoolTime = 3f;
         atkCoolTimeCalc = atkCoolTime;
 
         StartCoroutine(FSM());
@@ -33,9 +34,6 @@ public class RangedMonster : Monster
         {
             switch (currentState)
             {
-                case State.Idle:
-                    yield return StartCoroutine(Idle());
-                    break;
                 case State.Run:
                     yield return StartCoroutine(Run());
                     break;
@@ -50,18 +48,6 @@ public class RangedMonster : Monster
                     break;
             }
         }
-    }
-
-    IEnumerator Idle()
-    {
-        MyAnimSetTrigger("Idle");
-
-        if (Random.value > 0.5f)
-        {
-            MonsterFlip();
-        }
-        yield return new WaitForSeconds(1f);
-        currentState = State.Run;
     }
 
     IEnumerator Run()
@@ -93,14 +79,7 @@ public class RangedMonster : Monster
 
         if (currentState != State.Attack)
         {
-            if (Random.value > 0.5f)
-            {
-                MonsterFlip();
-            }
-            else
-            {
-                currentState = State.Idle;
-            }
+            MonsterFlip();
         }
 
     }
@@ -124,7 +103,7 @@ public class RangedMonster : Monster
             yield return null;
         }
 
-        currentState = State.Idle;
+        currentState = State.Run;
     }
 
     IEnumerator Hit()
@@ -133,12 +112,15 @@ public class RangedMonster : Monster
 
         yield return new WaitForSeconds(0.5f); // Hit 애니메이션 재생 시간
 
-        currentState = State.Idle;
+        currentState = State.Run;
+
     }
 
     IEnumerator Death()
     {
         MyAnimSetTrigger("Death");
+
+        capsuleCollider.enabled = false;
 
         yield return new WaitForSeconds(1f);
 
@@ -154,8 +136,6 @@ public class RangedMonster : Monster
             Physics2D.IgnoreCollision(bulletClone.GetComponent<Collider2D>(), GetComponent<Collider2D>());
         }
     }
-
-
 
     public override void TakeDamage(int damage)
     {

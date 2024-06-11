@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EagleMonster : Monster
+public class Eagle : Monster
 {
     public enum State
     {

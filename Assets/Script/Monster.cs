@@ -114,7 +114,7 @@ public class Monster : MonoBehaviour
 
     protected void GroundCheck()
     {
-        if (Physics2D.BoxCast(capsuleCollider.bounds.center, capsuleCollider.size * transform.localScale.y, 0, Vector2.down, 0.05f, layerMask))
+        if (Physics2D.BoxCast(capsuleCollider.bounds.center, capsuleCollider.size * transform.localScale.y, 0, Vector2.down, 0.2f, layerMask))
         {
             isGround = true;
         }
@@ -141,12 +141,12 @@ public class Monster : MonoBehaviour
             rb.velocity = Vector2.zero;
             if (transform.position.x > GameManager.Instance.player.transform.position.x)
             {
-                rb.velocity = new Vector2(3f, 0);
+                rb.velocity = new Vector2(1f, 0);
             }
 
             else
             {
-                rb.velocity = new Vector2(-3f, 0);
+                rb.velocity = new Vector2(-1f, 0);
             }
         }
     }
@@ -161,43 +161,52 @@ public class Monster : MonoBehaviour
 
         rb.velocity = new Vector2(transform.localScale.x * moveSpeed, rb.velocity.y);
 
-        if (MonsterDirLeft == true)
+        if (MonsterDirLeft)
             moveDir = -0.3f;
         else
             moveDir = 0.3f;
 
-
-
         Vector2 currentPos = transform.position; // 현재 위치 기준
-        Vector2 frontVec = new Vector2(currentPos.x + transform.localScale.x, currentPos.y - 0.2f); // 앞 방향
-        Vector2 topVec = new Vector2(currentPos.x + transform.localScale.x, currentPos.y + 0.7f); // 위 방향
+        Vector2 frontVec = new Vector2(currentPos.x + (MonsterDirLeft ? -capsuleCollider.size.x / 2 : capsuleCollider.size.x / 2), currentPos.y); // 앞 방향
+        Vector2 topVec = new Vector2(currentPos.x + (MonsterDirLeft ? -capsuleCollider.size.x / 2 : capsuleCollider.size.x / 2), currentPos.y + 0.7f); // 위 방향
 
+        // 레이 길이를 설정합니다.
+        float frontRayLength = 0.5f;
+        float topRayLength = 0.5f;
 
+        // 디버그 레이를 그립니다.
+        Debug.DrawRay(frontVec, (MonsterDirLeft ? Vector3.left : Vector3.right) * frontRayLength, new Color(0, 1, 0));
+        Debug.DrawRay(topVec, (MonsterDirLeft ? Vector3.left : Vector3.right) * topRayLength, new Color(0, 1, 0));
 
-        Debug.DrawRay(frontVec, MonsterDirLeft ? Vector3.right : Vector3.left, new Color(0, 1, 0));
-        Debug.DrawRay(topVec, MonsterDirLeft ? Vector3.right : Vector3.left, new Color(0, 1, 0));
-
-        RaycastHit2D front = Physics2D.Raycast(frontVec, MonsterDirLeft ? Vector3.right : Vector3.left, 1, LayerMask.GetMask("Platform"));
-        RaycastHit2D top = Physics2D.Raycast(topVec, MonsterDirLeft ? Vector3.right : Vector3.left, 1, LayerMask.GetMask("Platform"));
+        // 실제 레이캐스트를 수행합니다.
+        RaycastHit2D front = Physics2D.Raycast(frontVec, MonsterDirLeft ? Vector3.left : Vector3.right, frontRayLength, LayerMask.GetMask("Platform"));
+        RaycastHit2D top = Physics2D.Raycast(topVec, MonsterDirLeft ? Vector3.left : Vector3.right, topRayLength, LayerMask.GetMask("Platform"));
 
         if (front.collider != null && top.collider == null) // 점프
-            rb.velocity = new Vector2(rb.velocity.x, jumpPower);
-
-        if (front.collider != null && top.collider != null) // 벽 방향전환
-            MonsterFlip();
-
-
-        GroundCheck();
-        if (top.collider == null && front.collider == null && isGround)
         {
-            Vector2 downVec = new Vector2(transform.position.x + moveDir, transform.position.y - 0.3f);
-            Debug.DrawRay(downVec, Vector3.down, new Color(0, 1, 0));
-            RaycastHit2D down = Physics2D.Raycast(downVec, Vector3.down, 1, LayerMask.GetMask("Platform"));
-
-            if (down.collider == null)
-                MonsterFlip();
+            rb.velocity = new Vector2(rb.velocity.x, jumpPower);
         }
 
+        if (front.collider != null && top.collider != null) // 벽 방향전환
+        {
+            MonsterFlip();
+        }
+
+        GroundCheck();
+
+
+        if (isGround)
+        {
+            Vector2 downVec = new Vector2(transform.position.x + moveDir, transform.position.y - 0.3f);
+            Debug.DrawRay(downVec, Vector3.down * 0.5f, new Color(0, 1, 0));
+            RaycastHit2D down = Physics2D.Raycast(downVec, Vector3.down, 0.5f, LayerMask.GetMask("Platform"));
+
+            if (down.collider == null)
+            {
+                MonsterFlip();
+            }
+        }
     }
+
 }
 

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 449788242249319574}
   - component: {fileID: 8875449679392928683}
   - component: {fileID: 8900744797986302062}
+  - component: {fileID: 409038790383482362}
   m_Layer: 10
   m_Name: Bunny
   m_TagString: Monster
@@ -146,7 +147,7 @@ CapsuleCollider2D:
     serializedVersion: 2
     m_Bits: 4294967295
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0.049743652, y: -0.24211049}
   m_Size: {x: 0.10255432, y: 0.47173572}
@@ -186,7 +187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHp: 2
   moveSpeed: 2
-  jumpPower: 2
+  jumpPower: 3.7
   atkCoolTime: 3
   atkCoolTimeCalc: 3
   isHit: 0
@@ -200,6 +201,25 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   currentState: 0
+--- !u!251 &409038790383482362
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8085497613596079106}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 0
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1 &8366910003085055442
 GameObject:
   m_ObjectHideFlags: 0

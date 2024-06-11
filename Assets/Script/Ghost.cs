@@ -8,6 +8,8 @@ public class Ghost : Monster
         Idle,
         Run,
         Attack,
+        Hit,
+        Death,
     };
 
     public State currentState = State.Idle;
@@ -15,14 +17,11 @@ public class Ghost : Monster
     public Transform genPoint;
     public GameObject Bullet;
 
-    WaitForSeconds delay = new WaitForSeconds(1f);
 
     void Awake()
     {
         base.Awake();
-        moveSpeed = 1f;
-        jumpPower = 0.3f;
-        currentHp = 4;
+
         atkCoolTime = 3f;
         atkCoolTimeCalc = atkCoolTime;
 
@@ -33,7 +32,6 @@ public class Ghost : Monster
     {
         while (true)
         {
-            Debug.Log("Current State: " + currentState);
             switch (currentState)
             {
                 case State.Idle:
@@ -45,31 +43,39 @@ public class Ghost : Monster
                 case State.Attack:
                     yield return StartCoroutine(Attack());
                     break;
+                case State.Hit:
+                    yield return StartCoroutine(Hit());
+                    break;
+                case State.Death:
+                    yield return StartCoroutine(Death());
+                    break;
             }
         }
     }
 
     IEnumerator Idle()
     {
-        Debug.Log("Entering Idle state");
         MyAnimSetTrigger("Idle");
 
         if (Random.value > 0.5f)
         {
             MonsterFlip();
         }
-        yield return delay;
+        yield return new WaitForSeconds(1f);
         currentState = State.Run;
     }
 
     IEnumerator Run()
     {
-        Debug.Log("Entering Run state");
         float runTime = Random.Range(2f, 4f);
         while (runTime >= 0f)
         {
+            if (currentState == State.Hit || currentState == State.Death)
+                yield break;
+
             runTime -= Time.deltaTime;
             MyAnimSetTrigger("Run");
+
             if (!isHit)
             {
                 Move();
@@ -88,9 +94,16 @@ public class Ghost : Monster
 
         if (currentState != State.Attack)
         {
-            currentState = Random.value >= 0.5f ? State.Idle : State.Run;
-            MonsterFlip();
+            if (Random.value > 0.5f)
+            {
+                MonsterFlip();
+            }
+            else
+            {
+                currentState = State.Idle;
+            }
         }
+
     }
 
     IEnumerator Attack()
@@ -101,30 +114,62 @@ public class Ghost : Monster
 
         MyAnimSetTrigger("Attack");
 
-        yield return new WaitForSeconds(Random.Range(0.5f, 1f)); // 총알 발사 간격
+        float attackDuration = Random.Range(0.5f, 1f);
+        float timer = 0f;
+        while (timer < attackDuration)
+        {
+            timer += Time.deltaTime;
+            if (currentState == State.Hit || currentState == State.Death)
+                yield break;
+
+            yield return null;
+        }
+
         currentState = State.Idle;
+    }
+
+    IEnumerator Hit()
+    {
+        MyAnimSetTrigger("Hit");
+
+        yield return new WaitForSeconds(0.5f); // Hit 애니메이션 재생 시간
+
+        currentState = State.Idle;
+    }
+
+    IEnumerator Death()
+    {
+        MyAnimSetTrigger("Death");
+
+        yield return new WaitForSeconds(1f);
+
+        Destroy(gameObject);
     }
 
     void Fire()
     {
-        Debug.Log("Fire function called");
-        if (Bullet == null || genPoint == null)
-        {
-            Debug.LogError("Bullet prefab or genPoint is not set.");
-            return;
-        }
-
         GameObject bulletClone = Instantiate(Bullet, genPoint.position, genPoint.rotation);
         if (bulletClone != null)
         {
             bulletClone.GetComponent<Rigidbody2D>().velocity = transform.right * transform.localScale.x * 5f;
             Physics2D.IgnoreCollision(bulletClone.GetComponent<Collider2D>(), GetComponent<Collider2D>());
-            Debug.Log("Bullet instantiated and fired");
-        }
-        else
-        {
-            Debug.LogError("Bullet instantiation failed");
         }
     }
 
+
+
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+
+        if (currentHp <= 0)
+        {
+            currentState = State.Death;
+        }
+
+        else
+        {
+            currentState = State.Hit;
+        }
+    }
 }

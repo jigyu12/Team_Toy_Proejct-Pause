@@ -155,6 +155,7 @@ GameObject:
   - component: {fileID: 2220950705434083251}
   - component: {fileID: 7444708499910417808}
   - component: {fileID: 6094906382166341769}
+  - component: {fileID: 1345273067664538097}
   m_Layer: 10
   m_Name: Lizard
   m_TagString: Monster
@@ -288,7 +289,7 @@ CapsuleCollider2D:
     serializedVersion: 2
     m_Bits: 4294967295
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0.035446167, y: -0.29747105}
   m_Size: {x: 0.21054077, y: 0.4050579}
@@ -328,7 +329,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHp: 2
   moveSpeed: 2
-  jumpPower: 0
+  jumpPower: 3.7
   atkCoolTime: 3
   atkCoolTimeCalc: 3
   isHit: 0
@@ -344,6 +345,25 @@ MonoBehaviour:
   currentState: 0
   genPoint: {fileID: 2937358807113212203}
   Bullet: {fileID: 2357237417207587767, guid: ef65ca89845e2cd4aa184f2ce0ccd861, type: 3}
+--- !u!251 &1345273067664538097
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3511058200046845207}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 0
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1 &7107117200065593757
 GameObject:
   m_ObjectHideFlags: 0
