@@ -162,13 +162,13 @@ public class Monster : MonoBehaviour
         rb.velocity = new Vector2(transform.localScale.x * moveSpeed, rb.velocity.y);
 
         if (MonsterDirLeft)
-            moveDir = -0.3f;
+            moveDir = -0.8f;
         else
-            moveDir = 0.3f;
+            moveDir = 0.8f;
 
         Vector2 currentPos = transform.position; // 현재 위치 기준
-        Vector2 frontVec = new Vector2(currentPos.x + (MonsterDirLeft ? -capsuleCollider.size.x / 2 : capsuleCollider.size.x / 2), currentPos.y); // 앞 방향
-        Vector2 topVec = new Vector2(currentPos.x + (MonsterDirLeft ? -capsuleCollider.size.x / 2 : capsuleCollider.size.x / 2), currentPos.y + 0.7f); // 위 방향
+        Vector2 frontVec = new Vector2(currentPos.x + (MonsterDirLeft ? -capsuleCollider.size.x / 2.0f : capsuleCollider.size.x / 2.0f), currentPos.y - 0.2f); // 앞 방향
+        Vector2 topVec = new Vector2(currentPos.x + (MonsterDirLeft ? -capsuleCollider.size.x / 2.0f : capsuleCollider.size.x / 2.0f), currentPos.y + 0.7f); // 위 방향
 
         // 레이 길이를 설정합니다.
         float frontRayLength = 0.5f;
@@ -198,8 +198,8 @@ public class Monster : MonoBehaviour
         if (isGround)
         {
             Vector2 downVec = new Vector2(transform.position.x + moveDir, transform.position.y - 0.3f);
-            Debug.DrawRay(downVec, Vector3.down * 0.5f, new Color(0, 1, 0));
-            RaycastHit2D down = Physics2D.Raycast(downVec, Vector3.down, 0.5f, LayerMask.GetMask("Platform"));
+            Debug.DrawRay(downVec, Vector3.down * 2.5f, new Color(0, 1, 0));
+            RaycastHit2D down = Physics2D.Raycast(downVec, Vector3.down, 2.5f, LayerMask.GetMask("Platform"));
 
             if (down.collider == null)
             {
