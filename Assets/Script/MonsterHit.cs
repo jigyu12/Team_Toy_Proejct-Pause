@@ -14,7 +14,8 @@ public class MonsterHit : MonoBehaviour
     {
         if (collision.CompareTag("PlayerProjectile"))
         {
-            monster.TakeDamage(1);
+            int damage = GameManager.Instance.GetCurrentWeaponDamage();
+            monster.TakeDamage(damage);
         }
     }
 }

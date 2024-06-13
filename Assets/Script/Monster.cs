@@ -18,7 +18,8 @@ public class Monster : MonoBehaviour
 
     protected Rigidbody2D rb;
     protected CapsuleCollider2D capsuleCollider;
-    protected BoxCollider2D childCollider;
+    //protected BoxCollider2D childCollider;
+    protected Collider2D monsterHitBox;
     public GameObject hitBoxCollider;
     public Animator Anim;
     public LayerMask layerMask;
@@ -28,7 +29,8 @@ public class Monster : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
-        childCollider = transform.Find("MonsterHitBox").GetComponent<BoxCollider2D>();
+        //childCollider = transform.Find("MonsterHitBox").GetComponent<BoxCollider2D>();
+        monsterHitBox = transform.Find("MonsterHitBox").GetComponent<Collider2D>();
         Anim = GetComponent<Animator>();
 
         StartCoroutine(CalcCoolTime());
@@ -141,12 +143,12 @@ public class Monster : MonoBehaviour
             rb.velocity = Vector2.zero;
             if (transform.position.x > GameManager.Instance.player.transform.position.x)
             {
-                rb.velocity = new Vector2(1f, 0);
+                rb.velocity = new Vector2(0.5f, 0);
             }
 
             else
             {
-                rb.velocity = new Vector2(-1f, 0);
+                rb.velocity = new Vector2(-0.5f, 0);
             }
         }
     }
@@ -199,7 +201,7 @@ public class Monster : MonoBehaviour
         {
             Vector2 downVec = new Vector2(transform.position.x + moveDir, transform.position.y - 0.3f);
             Debug.DrawRay(downVec, Vector3.down * 2.5f, new Color(0, 1, 0));
-            RaycastHit2D down = Physics2D.Raycast(downVec, Vector3.down, 2.5f, LayerMask.GetMask("Platform"));
+            RaycastHit2D down = Physics2D.Raycast(downVec, Vector3.down, 2.0f, LayerMask.GetMask("Platform"));
 
             if (down.collider == null)
             {

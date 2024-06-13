@@ -352,7 +352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2db9238209a00e4ab0cc97ca81229ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHp: 2
+  currentHp: 6
   moveSpeed: 2
   jumpPower: 3.7
   atkCoolTime: 3

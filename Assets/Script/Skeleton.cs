@@ -68,8 +68,9 @@ public class Skeleton : Monster
     {
         MyAnimSetTrigger("Death");
 
+        monsterHitBox.enabled = false;
         // Death 애니메이션 재생 시간만큼 대기
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
 
         // 죽음 처리 로직 (예: 오브젝트 삭제)
         Destroy(gameObject);

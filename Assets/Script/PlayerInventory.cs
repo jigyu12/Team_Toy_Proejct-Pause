@@ -47,4 +47,42 @@ public class PlayerInventory : MonoBehaviour
             */
         }
     }
+
+
+    // 변경
+    public void SetWeaponInventory(Collider2D collision)
+    {
+        if (collision == null)
+            return;
+
+        bool isFull = true;
+        int index = -1;
+        for (int i = 0; i < weaponInventory.Length; i++)
+        {
+            if (weaponInventory[i] == null)
+            {
+                index = i;
+                isFull = false;
+                break;
+            }
+        }
+
+        if (isFull) // 인벤토리 한 칸이라 가정한 임시 코드
+        {
+            collision.gameObject.SetActive(false);
+            collision.transform.parent = transform;
+            Destroy(weaponInventory[0]);
+            weaponInventory[0] = collision.gameObject;
+        }
+        else
+        {
+            collision.gameObject.SetActive(false);
+            collision.transform.parent = transform;
+            weaponInventory[index] = collision.gameObject;
+        }
+
+        // 무기 데미지를 업데이트
+        playerDamage = collision.GetComponent<weapon>().weaponDamage;
+        GameManager.Instance.SetPlayerDamage(playerDamage);
+    }
 }

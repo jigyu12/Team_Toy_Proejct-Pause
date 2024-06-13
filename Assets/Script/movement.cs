@@ -231,7 +231,8 @@ public class PlayerMove : MonoBehaviour
                 transform.position = new Vector3(-23.51f, -41.22f, 0f);
             }
 
-            StartCoroutine(PlayerHurt());
+            if (collision.CompareTag("MonsterHitBox"))
+                StartCoroutine(PlayerHurt());
         }
     }
 

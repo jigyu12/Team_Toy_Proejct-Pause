@@ -592,4 +592,18 @@ public class GameManager : MonoBehaviour
     {
         player.GetComponent<PlayerMove>().anim.SetBool("isShoot", false);
     }
+
+    // 변경
+    public int GetCurrentWeaponDamage()
+    {
+        if (weaponInventory.Length > 0 && weaponInventory[0] != null)
+        {
+            weapon currentWeapon = weaponInventory[0].GetComponent<weapon>();
+            if (currentWeapon != null)
+            {
+                return currentWeapon.weaponDamage;
+            }
+        }
+        return 1; // 기본값 또는 무기가 없을 때의 데미지
+    }
 }
