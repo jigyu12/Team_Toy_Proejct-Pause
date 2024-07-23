@@ -13,7 +13,7 @@ Unity를 사용하여 개발한 2D 플랫포머 게임으로, 안드로이드에
 이 게임은 몬스터를 제거하고 무기를 교체하며 스테이지를 진행하는 방식입니다.
 최종 목표는 보스 몬스터를 제거하여 스테이지를 클리어하는 것입니다.
 
-<img src="https://github.com/user-attachments/assets/7c065b9f-2de5-41d4-b90e-505ddd344f78" width="400" height="200"/>
+<img src="https://github.com/user-attachments/assets/7c065b9f-2de5-41d4-b90e-505ddd344f78" width="600" height="400"/>
 <img src="https://github.com/user-attachments/assets/070ece04-c692-4445-a1b1-7a759ffd9777" width="400" height="200"/>
 <img src="https://github.com/user-attachments/assets/f1467cb5-f797-4b38-a0bc-857e37693a81" width="400" height="200"/>
 <img src="https://github.com/user-attachments/assets/05b7ac0d-1a82-409b-a103-7763ae73597e" width="400" height="200"/>
