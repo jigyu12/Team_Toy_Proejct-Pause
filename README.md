@@ -1,4 +1,4 @@
-# capstone Project
+# Capstone Project
 
 ## 개요
 
