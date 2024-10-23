@@ -138,19 +138,19 @@ public class Monster : MonoBehaviour
             Debug.Log("Monster Dead");
         }
 
-        else
-        {
-            rb.velocity = Vector2.zero;
-            if (transform.position.x > GameManager.Instance.player.transform.position.x)
-            {
-                rb.velocity = new Vector2(0.5f, 0);
-            }
+        //else
+        //{
+        //    rb.velocity = Vector2.zero;
+        //    if (transform.position.x > GameManager.Instance.player.transform.position.x)
+        //    {
+        //        rb.velocity = new Vector2(0.5f, 0);
+        //    }
 
-            else
-            {
-                rb.velocity = new Vector2(-0.5f, 0);
-            }
-        }
+        //    else
+        //    {
+        //        rb.velocity = new Vector2(-0.5f, 0);
+        //    }
+        //}
     }
 
 
@@ -207,6 +207,13 @@ public class Monster : MonoBehaviour
             {
                 MonsterFlip();
             }
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("FallDetectWall"))
+        {
+            Destroy(gameObject);
         }
     }
 
