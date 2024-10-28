@@ -362,17 +362,13 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-
-        // left shift 키를 눌러 기능 검사 // 임시 ////////////////////////////////////////////
-
         if (Input.GetButtonDown("Fire3"))
         {
-            
-            
+
+
             LoadScene(sceneNumberNext);
             sceneNumberNext++;
         }
-
     }
 
     public static GameManager Instance
