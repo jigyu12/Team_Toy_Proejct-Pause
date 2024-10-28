@@ -18,7 +18,6 @@ public class Monster : MonoBehaviour
 
     protected Rigidbody2D rb;
     protected CapsuleCollider2D capsuleCollider;
-    //protected BoxCollider2D childCollider;
     protected Collider2D monsterHitBox;
     public GameObject hitBoxCollider;
     public Animator Anim;
@@ -29,7 +28,6 @@ public class Monster : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
-        //childCollider = transform.Find("MonsterHitBox").GetComponent<BoxCollider2D>();
         monsterHitBox = transform.Find("MonsterHitBox").GetComponent<Collider2D>();
         Anim = GetComponent<Animator>();
 
@@ -137,20 +135,6 @@ public class Monster : MonoBehaviour
         {
             Debug.Log("Monster Dead");
         }
-
-        //else
-        //{
-        //    rb.velocity = Vector2.zero;
-        //    if (transform.position.x > GameManager.Instance.player.transform.position.x)
-        //    {
-        //        rb.velocity = new Vector2(0.5f, 0);
-        //    }
-
-        //    else
-        //    {
-        //        rb.velocity = new Vector2(-0.5f, 0);
-        //    }
-        //}
     }
 
 

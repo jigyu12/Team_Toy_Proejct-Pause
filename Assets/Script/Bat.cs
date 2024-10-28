@@ -53,6 +53,11 @@ public class Bat : Monster
 
         yield return new WaitForSeconds(1f);
 
+        if (GameManager.Instance.player != null && GameManager.Instance.player.transform.position.x < transform.position.x)
+        {
+            MonsterFlip();
+        }
+
         if (Vector2.Distance(transform.position, GameManager.Instance.player.transform.position) < 10f)
             currentState = State.Fly;
     }
@@ -114,10 +119,6 @@ public class Bat : Monster
         if (IsPlayerDir() && Vector2.Distance(transform.position, GameManager.Instance.player.transform.position) < 15f)
         {
             Vector2 direction = (GameManager.Instance.player.transform.position - transform.position).normalized;
-            //if (Random.value > 0.5f)
-            //    rb.velocity = new Vector2(direction.x * moveSpeed, direction.y * moveSpeed);
-            //else
-            //    rb.velocity = new Vector2(direction.x * moveSpeed, direction.y * -moveSpeed);
             rb.velocity = new Vector2(direction.x * moveSpeed, direction.y * moveSpeed);
         }
 

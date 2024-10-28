@@ -126,11 +126,15 @@ public class Slimer : Monster
         if (front.collider != null) // 벽 방향전환
             MonsterFlip();
 
+        GroundCheck();
 
-        RaycastHit2D down = Physics2D.Raycast(downVec, Vector3.down, 1, LayerMask.GetMask("Platform"));
+        if (isGround)
+        {
+            RaycastHit2D down = Physics2D.Raycast(downVec, Vector3.down, 1, LayerMask.GetMask("Platform"));
 
-        if (down.collider == null)
-            MonsterFlip();
+            if (down.collider == null)
+                MonsterFlip();
+        }
     }
 
     public override void TakeDamage(int damage)
