@@ -362,13 +362,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Fire3"))
-        {
-
-
-            LoadScene(sceneNumberNext);
-            sceneNumberNext++;
-        }
+        
     }
 
     public static GameManager Instance
