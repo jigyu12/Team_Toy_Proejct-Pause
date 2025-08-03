@@ -7,6 +7,8 @@
  24.03 ~ 24.06 (4달)
 
 🧑‍💻 **개발진**
+<img src="https://img.shields.io/badge/서상영, 민지규, 오지영-80247B?style=flat-square&logo=&logoColor=white"/> <img src="https://img.shields.io/badge/정희재-005E9D?style=flat-square&logo=&logoColor=white"/> 
+
 유니티로 제작한 PC 2D 플랫포머 게임 프로젝트입니다.
 
 > Unity를 사용하여 개발한 2D 플랫포머 게임으로, 몬스터를 제거하고 무기를 교체하며 스테이지를 진행하는 방식입니다.  
