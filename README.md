@@ -15,12 +15,6 @@
 
 ---
 
-<img src="https://github.com/user-attachments/assets/7c065b9f-2de5-41d4-b90e-505ddd344f78" width="500" height="250"/>
-<img src="https://github.com/user-attachments/assets/070ece04-c692-4445-a1b1-7a759ffd9777" width="500" height="250"/>
-<img src="https://github.com/user-attachments/assets/f1467cb5-f797-4b38-a0bc-857e37693a81" width="500" height="250"/>
-<img src="https://github.com/user-attachments/assets/05b7ac0d-1a82-409b-a103-7763ae73597e" width="500" height="250"/>
-<img src="https://github.com/user-attachments/assets/e9744254-c9a6-48c2-a82a-0ef38902ef4c" width="500" height="250"/>
-
 ## 사용 기술
 
 싱글톤 패턴을 사용한 매니저 기반 관리 구조 및
@@ -40,7 +34,7 @@ FSM을 사용한 몬스터의 상태 관리
 UI
   메인 화면, 체력, 장비창, 설정, 게임 오버, 게임 클리어
 
-## 팀원
+## 역할
 
 팀장 : 서상영
 * 몬스터 이동, 공격 및 피격
@@ -60,39 +54,26 @@ UI
 * UI 구성
 * 맵 구성
 
-## 🛠️ 주요 구현 요소
+## 📷 인 게임 스크린샷
 <table>
   <tr>
-    <td align="center"><strong>스와이프로 레인 이동, 점프</strong></td>
-    <td align="center"><strong>스킬 선택</strong></td>
-    <td align="center"><strong>보스 전투</strong></td>
+    <td align="center"><strong>메인 타이틀</strong></td>
+    <td align="center"><strong>스테이지 1</strong></td>
+    <td align="center"><strong>스테이지 2</strong></td>
   </tr>
   <tr>
-    <td><img src="./Screenshot/플레이화면.png" width="250"/></td>
-    <td><img src="./Screenshot/스킬선택화면.png" width="250"/></td>
-    <td><img src="./Screenshot/스킬과보스전화면.png" width="250"/></td>
+    <td><img src="https://github.com/user-attachments/assets/7c065b9f-2de5-41d4-b90e-505ddd344f78" width="500" height="250"/></td>
+    <td><img src="https://github.com/user-attachments/assets/070ece04-c692-4445-a1b1-7a759ffd9777" width="500" height="250"/></td>
+    <td><img src="https://github.com/user-attachments/assets/f1467cb5-f797-4b38-a0bc-857e37693a81" width="500" height="250"/></td>
   </tr>
 </table>
 
 <table>
   <tr>
-    <td align="center"><strong>동물 캐릭터 가챠</strong></td>
-    <td align="center"><strong>동물 강화</strong></td>
+    <td align="center"><strong>스테이지 3</strong></td>
+    <td align="center"><strong>보스 스테이지</strong></td>
   </tr>
   <tr>
-    <td><img src="./Screenshot/가챠화면.png" width="260"/><img src="./Screenshot/가챠결과.png" width="255"/></td>
-    <td><img src="./Screenshot/동물강화화면.png" width="250"/></td>
+    <td><img src="https://github.com/user-attachments/assets/05b7ac0d-1a82-409b-a103-7763ae73597e" width="500" height="250"/></td>
+    <td><img src="https://github.com/user-attachments/assets/e9744254-c9a6-48c2-a82a-0ef38902ef4c" width="500" height="250"/></td>
   </tr>
- 
-</table>
-<table>
-  <tr>
-    <td align="center"><strong>로컬라이제이션</strong></td>
-    <td align="center"><strong>애드몹 보상 광고</strong></td>
-  </tr>
-  <tr>
-    <td><img src="./Screenshot/설정화면.png" width="250"/></td>
-    <td><img src="./Screenshot/광고.jpg" width="500"/></td>
-  </tr>
-</table>
-
